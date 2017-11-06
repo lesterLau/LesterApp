@@ -5,13 +5,13 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\soft\Android Studio\gradle\gradle-2.14.1" />
+        <option name="gradleHome" value="D:/gradle/gradle-3.3" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/news" />
-            <option value="$PROJECT_DIR$/weather" />
+            <option value="$PROJECT_DIR$/News" />
+            <option value="$PROJECT_DIR$/StudySample" />
+            <option value="$PROJECT_DIR$/Weather" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
