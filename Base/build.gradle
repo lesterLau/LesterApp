@@ -8,6 +8,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
     }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -26,5 +27,4 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    provided "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
 }

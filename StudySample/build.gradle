@@ -4,6 +4,11 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        multiDexEnabled true
+    }
+    defaultConfig {
         applicationId "com.lester.lesterapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
@@ -29,10 +34,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
-    compile "com.android.support:support-v4:$rootProject.ext.supportVersion"
-    compile "com.android.support:design:$rootProject.ext.supportVersion"
-    compile 'com.android.support:multidex:1.0.2'
     compile project(':News')
     compile project(':Weather')
     compile project(':CustomView')

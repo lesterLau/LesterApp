@@ -1,4 +1,4 @@
-include ':StudySample', ':CustomView', ':EthWallet'
+include ':StudySample', ':CustomView', ':EthWallet', ':Base', ':Http'
 include ':News'
 include ':Weather'
 include ':CustomView'
