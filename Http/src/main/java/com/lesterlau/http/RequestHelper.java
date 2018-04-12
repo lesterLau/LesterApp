@@ -148,33 +148,36 @@ public class RequestHelper {
 
         @Override
         public void call(Response<ResponseBody> responseBodyResponse) {
+            boolean intercept = false;
             if (interception != null) {
-                interception.intercept(responseBodyResponse);
+                intercept = interception.intercept(responseBodyResponse);
             }
-            if (responseBodyResponse.isSuccessful()) {
-                if (cb != null) {
-                    try {
-                        String result = responseBodyResponse.body().string();
-                        Type t = ((ParameterizedType) cb.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-                        cb.onSuccess(new Gson().fromJson(result, t));
-                    } catch (IOException e) {
-                        LogUtils.e("MyAction", e);
-                    }
-                }
-            } else {
-                if (cb != null) {
-                    int code = responseBodyResponse.code();
-                    String msg;
-                    try {
-                        msg = responseBodyResponse.errorBody().string();
-                    } catch (Exception e) {
+            if (!intercept) {
+                if (responseBodyResponse.isSuccessful()) {
+                    if (cb != null) {
                         try {
-                            msg = responseBodyResponse.body().string();
-                        } catch (IOException e1) {
-                            msg = responseBodyResponse.message();
+                            String result = responseBodyResponse.body().string();
+                            Type t = ((ParameterizedType) cb.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+                            cb.onSuccess(new Gson().fromJson(result, t));
+                        } catch (IOException e) {
+                            LogUtils.e("MyAction", e);
                         }
                     }
-                    cb.onError(new ApiException(code, msg));
+                } else {
+                    if (cb != null) {
+                        int code = responseBodyResponse.code();
+                        String msg;
+                        try {
+                            msg = responseBodyResponse.errorBody().string();
+                        } catch (Exception e) {
+                            try {
+                                msg = responseBodyResponse.body().string();
+                            } catch (IOException e1) {
+                                msg = responseBodyResponse.message();
+                            }
+                        }
+                        cb.onError(new ApiException(code, msg));
+                    }
                 }
             }
             if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed()) {
