@@ -30,8 +30,11 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.android.support:appcompat-v7:$rootProject.ext.supportVersion"
+    compile "com.android.support:support-v4:$rootProject.ext.supportVersion"
+    compile "com.android.support:design:$rootProject.ext.supportVersion"
     compile 'com.android.support:multidex:1.0.2'
     compile project(':News')
     compile project(':Weather')
-//    compile project(':CustomView')
+    compile project(':CustomView')
+    compile project(':Utils')
 }
