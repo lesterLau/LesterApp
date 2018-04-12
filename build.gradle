@@ -23,3 +23,15 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    // Sdk and tools
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.2"
+    minSdkVersion = 16
+    targetSdkVersion = 27
+
+    // App dependencies
+    supportVersion = '27.0.2'
+    junitVersion = '4.12'
+}
