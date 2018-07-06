@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--统一间距-->
+    <dimen name="title_height">@dimen/y98</dimen>
+    <dimen name="common_space">@dimen/x30</dimen>
+    <dimen name="title_left_image_size">@dimen/x45</dimen>
+    <dimen name="title_left_text_size">14sp</dimen>
+    <dimen name="title_center_text_size">16sp</dimen>
+    <dimen name="title_right_image_size">@dimen/x45</dimen>
+    <dimen name="title_right_text_size">14sp</dimen>
+</resources>

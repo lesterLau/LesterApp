@@ -1,11 +1,10 @@
 package com.lesterlau.http;
 
 /**
- * Created by  lesterlau on 2018/4/9.
+ * Created by liubin on 2018/4/23 0023.
  */
-
-public abstract class HTCallBack {
-    public abstract void onSuccess(HttpResponse httpResponse);
+public abstract class HTCallBack<T> {
+    public abstract void onSuccess(T t);
 
     public abstract void onError(ApiException e);
 }

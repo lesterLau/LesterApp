@@ -31,12 +31,14 @@ public final class EmptyUtils {
      *
      * @param obj 对象
      * @return {@code true}: 为空<br>{@code false}: 不为空
+     * @deprecated use {@link ObjectUtils#isEmpty(Object)} instead
      */
+    @Deprecated
     public static boolean isEmpty(final Object obj) {
         if (obj == null) {
             return true;
         }
-        if (obj instanceof String && obj.toString().length() == 0) {
+        if (obj instanceof CharSequence && obj.toString().length() == 0) {
             return true;
         }
         if (obj.getClass().isArray() && Array.getLength(obj) == 0) {
@@ -69,7 +71,8 @@ public final class EmptyUtils {
             return true;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            if (obj instanceof android.util.LongSparseArray && ((android.util.LongSparseArray) obj).size() == 0) {
+            if (obj instanceof android.util.LongSparseArray
+                    && ((android.util.LongSparseArray) obj).size() == 0) {
                 return true;
             }
         }
@@ -81,7 +84,9 @@ public final class EmptyUtils {
      *
      * @param obj 对象
      * @return {@code true}: 非空<br>{@code false}: 空
+     * @deprecated use {@link ObjectUtils#isNotEmpty(Object)} instead
      */
+    @Deprecated
     public static boolean isNotEmpty(final Object obj) {
         return !isEmpty(obj);
     }

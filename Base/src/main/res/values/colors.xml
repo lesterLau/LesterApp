@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/titleBgColor</color>
+    <color name="colorPrimaryDark">@color/titleBgColor</color>
+    <color name="colorAccent">@color/titleBgColor</color>
+    <color name="titleBgColor">#0054dd</color>
+    <color name="titleLeftTextColor">@android:color/white</color>
+    <color name="titleCenterTextColor">@android:color/white</color>
+    <color name="titleRightTextColor">@android:color/white</color>
+</resources>
