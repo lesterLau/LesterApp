@@ -6,26 +6,42 @@
     android:padding="@dimen/common_space">
 
     <TextView
-        android:id="@+id/tv_http"
+        android:id="@+id/tv_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="test Http" />
+        android:text="Result" />
 
     <TextView
-        android:id="@+id/tv_fragment"
+        android:id="@+id/tv_get"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="test Fragment" />
+        android:text="Get" />
 
     <TextView
-        android:id="@+id/tv_news"
+        android:id="@+id/tv_get_with_params"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="click to news \n Fragment used in large-size or normal-size. " />
+        android:text="Get With Params" />
+
+    <TextView
+        android:id="@+id/tv_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Post" />
+
+    <TextView
+        android:id="@+id/tv_post_with_params"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Post With Params" />
 </LinearLayout>

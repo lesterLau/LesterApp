@@ -20,6 +20,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.ext.dependencies.multidex
+    annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     implementation project(':Common')
     implementation project(':Http')
     implementation project(':Utils')

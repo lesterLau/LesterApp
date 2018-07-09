@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by liubin on 2017/10/10.
@@ -37,7 +38,7 @@ public abstract class BaseFragment extends android.support.v4.app.Fragment {
      * 标题栏处理
      */
     protected TitlePanel titlePanel;
-
+    private Unbinder unbinder;
 
     @Nullable
     @Override
@@ -51,7 +52,7 @@ public abstract class BaseFragment extends android.support.v4.app.Fragment {
                 }
             }
             inflater.inflate(getContentLayoutId(), baseContent, true);
-            ButterKnife.bind(this, baseContent);
+            unbinder = ButterKnife.bind(this, baseContent);
             return view;
         } else {
             return super.onCreateView(inflater, container, savedInstanceState);
@@ -120,7 +121,7 @@ public abstract class BaseFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onDestroy() {
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         if (titlePanel != null) {
             titlePanel = null;
         }

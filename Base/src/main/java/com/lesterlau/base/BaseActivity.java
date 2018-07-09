@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.blankj.utilcode.util.LogUtils;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
@@ -24,6 +25,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
      * 标题栏处理
      */
     protected TitlePanel titlePanel;
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
         super.onCreate(savedInstanceState);
         onCreateInit(savedInstanceState);
         initBase(getContentLayoutId());
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         initView();
         initData();
     }
@@ -41,7 +43,7 @@ public abstract class BaseActivity extends SwipeBackActivity {
     @Override
     public void finish() {
         LogUtils.d(TAG, "finish");
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         super.finish();
     }
 

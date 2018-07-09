@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
@@ -15,9 +14,9 @@ android {
         }
     }
 }
-
 dependencies {
     api rootProject.ext.dependencies.swipebacklayout
     api rootProject.ext.dependencies.butterknife
+    annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     implementation project(':Utils')
 }
