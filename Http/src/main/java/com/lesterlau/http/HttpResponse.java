@@ -8,8 +8,8 @@ import java.util.List;
 
 public class HttpResponse<T, K> {
     private boolean result;
-    private int code;
-    private int errorCode;
+    private int code = -1;
+    private int errorCode = -1;
     private String message;
     private String msg;
     private String errorMsg;
@@ -25,6 +25,9 @@ public class HttpResponse<T, K> {
     }
 
     public int getCode() {
+        if (code == -1) {
+            code = errorCode;
+        }
         return code;
     }
 
@@ -75,6 +78,9 @@ public class HttpResponse<T, K> {
     public String getMsg() {
         if (msg == null || msg.length() == 0) {
             msg = message;
+        }
+        if (msg == null || msg.length() == 0) {
+            msg = errorMsg;
         }
         return msg;
     }

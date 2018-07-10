@@ -7,10 +7,14 @@ import java.util.Map;
  * Created by liubin on 2018/4/23 0023.
  */
 public enum ApiErrorCode {
-    ERROR_NET(1, "网络错误，请检查你的网络设置"),
-    ERROR_UNKNOWO(2, "未知错误"),
+    ERROR_UNKNOWN(1, "未知错误"),
+    ERROR_NETWORK(2, "网络错误，请检查你的网络设置"),
+    ERROR_IO(3, "网络请求数据传输异常"),
+    ERROR_CONNECTION_TIMEOUT(4, "网络请求数据传输异常"),
     ERROR_500(500, "服务器错误"),
     ERROR_404(404, "地址错误"),
+    HOST_KEY(1001, "host_url"),
+    HOST_WAN_VALUE(1002, "http://www.wanandroid.com/"),
     LAST(-1, "占位");
     // 成员变量
     private String value;

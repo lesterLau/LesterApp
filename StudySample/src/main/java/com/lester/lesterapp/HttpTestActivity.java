@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.lesterlau.base.BaseActivity;
 import com.lesterlau.http.ApiException;
 import com.lesterlau.http.HTCallBack;
@@ -11,13 +12,19 @@ import com.lesterlau.http.HttpResponse;
 import com.lesterlau.http.RequestHelper;
 import com.lesterlau.http.RxManager;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class HttpTestActivity extends BaseActivity {
     @BindView(R.id.tv_show)
     TextView tvShow;
-    private RxManager rxManager;
+
+    @Override
+    protected boolean isAttachTitle() {
+        return true;
+    }
 
     @Override
     protected int getContentLayoutId() {
@@ -38,21 +45,50 @@ public class HttpTestActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_get:
-                RequestHelper.getInstance().get("banner/json", new HTCallBack<HttpResponse<String, String>>() {
+                RequestHelper.getInstance().get(new RequestHelper.HttpRequest("banner/json111", new HTCallBack<HttpResponse<List<BannerBean>, String>>() {
 
                     @Override
-                    public void onSuccess(HttpResponse<String, String> response) {
+                    public void onSuccess(HttpResponse<List<BannerBean>, String> response) {
                         LogUtils.e(response);
-                        tvShow.setText(response.getData());
+                        if (response.getData() == null) {
+                            return;
+                        }
+                        StringBuffer sb = new StringBuffer();
+                        sb.append("Resulut=");
+                        for (int i = 0; i < response.getData().size(); i++) {
+                            sb.append(response.getData().get(i).toString() + "\n");
+                        }
+                        tvShow.setText(sb.toString());
                     }
 
                     @Override
                     public void onError(ApiException e) {
 
                     }
-                });
+                }, this));
                 break;
             case R.id.tv_get_with_params:
+                RequestHelper.getInstance().get(new RequestHelper.HttpRequest("banner/json", new HTCallBack<HttpResponse<List<BannerBean>, String>>() {
+
+                    @Override
+                    public void onSuccess(HttpResponse<List<BannerBean>, String> response) {
+                        LogUtils.e(response);
+                        if (response.getData() == null) {
+                            return;
+                        }
+                        StringBuffer sb = new StringBuffer();
+                        sb.append("Resulut=");
+                        for (int i = 0; i < response.getData().size(); i++) {
+                            sb.append(response.getData().get(i).toString() + "\n");
+                        }
+                        tvShow.setText(sb.toString());
+                    }
+
+                    @Override
+                    public void onError(ApiException e) {
+
+                    }
+                }));
                 break;
             case R.id.tv_post:
                 break;

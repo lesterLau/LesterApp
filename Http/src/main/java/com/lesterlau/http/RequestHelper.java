@@ -1,7 +1,14 @@
 package com.lesterlau.http;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.text.TextUtils;
+
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.SPUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -9,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.CertificateFactory;
@@ -38,9 +47,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * 网络请求管理类，基于Request对retrofit的二次封装
@@ -48,17 +55,17 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class RequestHelper {
     private static final int CONNECT_TIMEOUT = 5;  //请求超时时间，单位：min
-    private static final int RW_TIMEOUT = 5;       //读写超时时间，单位：min
     private static RequestHelper instance;
     private static RequestAPI requestAPI;
     private Interception interception;
     private static Map<String, RequestAPI> requestApiCache = Collections.synchronizedMap(new HashMap<String, RequestAPI>());
+    private static Map<String, HttpRequest> httpRequestCache = Collections.synchronizedMap(new HashMap<String, HttpRequest>());
 
     private RequestHelper() {
     }
 
     public static RequestHelper getInstance() {
-        return getInstance(Hosts.HOST_URL);
+        return getInstance(getBaseUrl());
     }
 
     public static RequestHelper getInstance(String url) {
@@ -86,13 +93,13 @@ public class RequestHelper {
         OkHttpClient.Builder localBuilder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
             localBuilder.addInterceptor(loggingInterceptor);
         }
 
-        /**
-         * 在建立retrofit实例前，调用设置证书的方法即可
-         */
+//        /**
+//         * 在建立retrofit实例前，调用设置证书的方法即可
+//         */
 //        try {
 //            setCertificates(localBuilder,MyApplication.getContext().getAssets().open("tainiu.cer"));
 //        } catch (IOException e) {
@@ -111,17 +118,18 @@ public class RequestHelper {
                 return chain.proceed(request);
             }
         });
+
         try {
             //设置超时
             localBuilder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES);
-            localBuilder.readTimeout(RW_TIMEOUT, TimeUnit.MINUTES);
-            localBuilder.writeTimeout(RW_TIMEOUT, TimeUnit.MINUTES);
+            localBuilder.readTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES);
+            localBuilder.writeTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES);
             //错误重连
             localBuilder.retryOnConnectionFailure(false);
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
                     .client(localBuilder.build())
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.createAsync())
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .build();
             requestAPI = retrofit.create(RequestAPI.class);
             requestApiCache.put(baseUrl, requestAPI);
@@ -130,173 +138,80 @@ public class RequestHelper {
         }
     }
 
-    private void checkInit() {
+    private void checkInit(HttpRequest request) {
         if (requestAPI == null) {
             throw new RuntimeException("RequestHelper must be init,Please call init method.");
         }
+        if (request == null) {
+            throw new RuntimeException("request is null.");
+        }
+
     }
 
-
-    public RxManager get(String url, HTCallBack cb) {
-        checkInit();
-        CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-        Subscription subscription = requestAPI.executeGetCall(url)
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(new MyError())
-                .subscribe(new MyAction(cb, mCompositeSubscription));
-        mCompositeSubscription.add(subscription);
-        return new RxManager(mCompositeSubscription);
-    }
-
-    public RxManager get(String url, HashMap<String, Object> params, HTCallBack cb) {
-        checkInit();
-        RequestBody body = toRequestBody(params);
-        CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-        Subscription subscription = requestAPI.executeGetCall(url, body)
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(new MyError())
-                .subscribe(new MyAction(cb, mCompositeSubscription));
-        mCompositeSubscription.add(subscription);
-        return new RxManager(mCompositeSubscription);
-    }
-
-    public RxManager post(String url, HTCallBack cb) {
-        checkInit();
-        CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-        Subscription subscription = requestAPI.executePostCall(url)
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(new MyError())
-                .subscribe(new MyAction(cb, mCompositeSubscription));
-        mCompositeSubscription.add(subscription);
-        return new RxManager(mCompositeSubscription);
-    }
-
-    public RxManager post(String url, HashMap<String, Object> params, HTCallBack cb) {
-        checkInit();
-        CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-        RequestBody body = toRequestBody(params);
-        Subscription subscription = requestAPI.executePostCall(url, body)
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(new MyError())
-                .subscribe(new MyAction(cb, mCompositeSubscription));
-        mCompositeSubscription.add(subscription);
-        return new RxManager(mCompositeSubscription);
-    }
-
-    public RxManager postImg(String url, File file, HTCallBack cb) {
-        checkInit();
-        CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-        Subscription subscription = requestAPI.postImg(url, toDesRequestBody("head"), toMultipartBody(file))
-                // Run on a background thread
-                .subscribeOn(Schedulers.io())
-                // Be notified on the main thread
-                .observeOn(AndroidSchedulers.mainThread())
-                .onErrorReturn(new MyError())
-                .subscribe(new MyAction(cb, mCompositeSubscription));
-        mCompositeSubscription.add(subscription);
-        return new RxManager(mCompositeSubscription);
-    }
-
-
-    class MyError implements Func1<Throwable, Response<ResponseBody>> {
-
-        @Override
-        public Response<ResponseBody> call(Throwable throwable) {
-            LogUtils.e(throwable);
-            if (throwable == null) {
-                return null;
-            }
-            ResponseBody requestBody = ResponseBody.create(MediaType.parse("application/json; charset=utf-8"), throwable.getMessage());
-            return Response.error(ApiErrorCode.ERROR_UNKNOWO.getCode(), requestBody);
+    public void get(HttpRequest request) {
+        checkInit(request);
+        request.method = HttpRequest.GET;
+        Subscription subscription;
+        if (request.params == null) {
+            subscription = requestAPI.executeGetCall(request.url)
+                    // Run on a background thread
+                    .subscribeOn(Schedulers.io())
+                    // Be notified on the main thread
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySuccess(request), new MyError(request));
+        } else {
+            RequestBody body = toRequestBody(request.params);
+            subscription = requestAPI.executeGetCall(request.url, body)
+                    // Run on a background thread
+                    .subscribeOn(Schedulers.io())
+                    // Be notified on the main thread
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySuccess(request), new MyError(request));
+        }
+        RxManager.getInstance().add(request.tag, subscription);
+        if (request.showLoading) {
+            CustomProgressDialog.showProgressDialog(request.context, request.canCancel, request.canceledOnTouchOutside);
         }
     }
 
-    class MyAction implements Action1<Response<ResponseBody>> {
-        private HTCallBack cb;
-        private CompositeSubscription mCompositeSubscription;
-
-        public MyAction(HTCallBack cb, CompositeSubscription mCompositeSubscription) {
-            this.cb = cb;
-            this.mCompositeSubscription = mCompositeSubscription;
+    public void post(HttpRequest request) {
+        checkInit(request);
+        request.method = HttpRequest.POST;
+        Subscription subscription;
+        if (request.params == null) {
+            subscription = requestAPI.executePostCall(request.url)
+                    // Run on a background thread
+                    .subscribeOn(Schedulers.io())
+                    // Be notified on the main thread
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySuccess(request), new MyError(request));
+        } else {
+            RequestBody body = toRequestBody(request.params);
+            subscription = requestAPI.executePostCall(request.url, body)
+                    // Run on a background thread
+                    .subscribeOn(Schedulers.io())
+                    // Be notified on the main thread
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new MySuccess(request), new MyError(request));
         }
-
-        @Override
-        public void call(Response<ResponseBody> responseBodyResponse) {
-            try {
-                LogUtils.i(responseBodyResponse);
-                boolean intercept = false;
-                if (interception != null) {
-                    intercept = interception.intercept(responseBodyResponse);
-                }
-                if (!intercept) {
-                    if (responseBodyResponse.isSuccessful()) {
-                        if (cb != null) {
-                            try {
-                                String result = responseBodyResponse.body().string();
-                                LogUtils.i(result);
-                                Type t = ((ParameterizedType) cb.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-                                HttpResponse response = new Gson().fromJson(result, t);
-                                if (response.isResult() || response.getCode() == 200 || response.getErrorCode() >= 0) {
-                                    cb.onSuccess(response);
-                                } else {
-                                    cb.onError(new ApiException(response.getCode(), response.getMsg()));
-                                }
-                            } catch (Exception e) {
-                                LogUtils.e(e);
-                                try {
-                                    cb.onError(new ApiException(responseBodyResponse.code(), e.getMessage()));
-                                } catch (Exception e1) {
-                                    LogUtils.e(e1);
-                                }
-                            }
-                        }
-                    } else {
-                        if (cb != null) {
-                            int code = responseBodyResponse.code();
-                            String msg;
-                            try {
-                                msg = responseBodyResponse.errorBody().string();
-                            } catch (Exception e) {
-                                try {
-                                    msg = responseBodyResponse.body().string();
-                                } catch (IOException e1) {
-                                    msg = responseBodyResponse.message();
-                                }
-                            }
-                            try {
-                                cb.onError(new ApiException(code, msg));
-                            } catch (Exception e1) {
-                                LogUtils.e(e1);
-                            }
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                LogUtils.e(e);
-            }
-            if (mCompositeSubscription != null && !mCompositeSubscription.isUnsubscribed()) {
-                mCompositeSubscription.unsubscribe();
-            }
+        RxManager.getInstance().add(request.tag, subscription);
+        if (request.showLoading) {
+            CustomProgressDialog.showProgressDialog(request.context, request.canCancel, request.canceledOnTouchOutside);
         }
     }
 
     private RequestBody toRequestBody(Map<String, Object> map) {
         if (map == null) {
-            map = Collections.emptyMap();
+            map = new HashMap<>();
         }
         return RequestBody.create(MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(map));
+    }
+
+    private static String toRequestTag(String url, Map<String, Object> map) {
+        if (map == null) {
+            map = new HashMap<>();
+        }
+        return url + map.toString();
     }
 
     private RequestBody toDesRequestBody(String des) {
@@ -308,12 +223,21 @@ public class RequestHelper {
         return MultipartBody.Part.createFormData("file", file.getName().trim(), requestFile);
     }
 
+    private static String getBaseUrl() {
+        String url = SPUtils.getInstance().getString(ApiErrorCode.HOST_KEY.getValue());
+        if (!TextUtils.isEmpty(url)) {
+            return url;
+        }
+        return Hosts.HOST_URL;
+    }
+
     public void setInterception(Interception interception) {
         this.interception = interception;
     }
 
     public interface Interception {
-        public boolean intercept(Response<ResponseBody> responseBodyResponse);
+        public boolean intercept(HttpRequest httpRequest, Response<ResponseBody> responseBodyResponse);
+
     }
 
 
@@ -350,6 +274,141 @@ public class RequestHelper {
             clientBuilder.sslSocketFactory(sslSocketFactory, trustManager);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    class MyError implements Action1<Throwable> {
+        private HttpRequest httpRequest;
+
+        public MyError(HttpRequest httpRequest) {
+            this.httpRequest = httpRequest;
+        }
+
+        @Override
+        public void call(Throwable throwable) {
+            LogUtils.e(throwable);
+            if (httpRequest != null && httpRequest.cb != null) {
+                //默认code和msg
+                int errorCode = ApiErrorCode.ERROR_UNKNOWN.getCode();
+                String errorMsg = ApiErrorCode.ERROR_UNKNOWN.getValue();
+                if (!NetworkUtils.isConnected()) {//无网络失败
+                    errorCode = ApiErrorCode.ERROR_NETWORK.getCode();
+                    errorMsg = ApiErrorCode.ERROR_NETWORK.getValue();
+                } else if (throwable instanceof UnknownHostException) {
+                    errorCode = ApiErrorCode.ERROR_NETWORK.getCode();
+                    errorMsg = ApiErrorCode.ERROR_NETWORK.getValue();
+                } else if (throwable instanceof IOException) {
+                    errorCode = ApiErrorCode.ERROR_IO.getCode();
+                    errorMsg = ApiErrorCode.ERROR_IO.getValue();
+                } else if (throwable instanceof SocketTimeoutException) {
+                    errorCode = ApiErrorCode.ERROR_CONNECTION_TIMEOUT.getCode();
+                    errorMsg = ApiErrorCode.ERROR_CONNECTION_TIMEOUT.getValue();
+                }
+                httpRequest.cb.onError(new ApiException(errorCode, errorMsg));
+                ToastUtils.showShort(errorMsg);
+            }
+            RxManager.getInstance().remove(httpRequest.tag);
+            CustomProgressDialog.stopProgressDialog();
+        }
+    }
+
+    class MySuccess implements Action1<Response<ResponseBody>> {
+        private HttpRequest httpRequest;
+
+        public MySuccess(HttpRequest httpRequest) {
+            this.httpRequest = httpRequest;
+        }
+
+        @Override
+        public void call(Response<ResponseBody> responseBodyResponse) {
+            LogUtils.i(responseBodyResponse);
+            boolean intercept = false;
+            if (interception != null) {
+                intercept = interception.intercept(httpRequest, responseBodyResponse);
+            }
+            if (!intercept && httpRequest != null && httpRequest.cb != null) {
+                boolean onSuccess = false;
+                int errorCode = ApiErrorCode.ERROR_UNKNOWN.getCode();
+                String errorMsg = ApiErrorCode.ERROR_UNKNOWN.getValue();
+                if (responseBodyResponse.isSuccessful()) {
+                    try {
+                        String result = responseBodyResponse.body().string();
+                        LogUtils.i(result);
+                        Type t = ((ParameterizedType) httpRequest.cb.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+                        HttpResponse response = new Gson().fromJson(result, t);
+                        if (response.isResult() || response.getCode() == 200 || response.getErrorCode() >= 0) {
+                            httpRequest.cb.onSuccess(response);
+                            onSuccess = true;
+                        } else {
+                            errorCode = response.getCode();
+                            errorMsg = response.getMsg();
+                        }
+                    } catch (IOException e) {
+                        errorCode = ApiErrorCode.ERROR_IO.getCode();
+                        errorMsg = ApiErrorCode.ERROR_IO.getValue();
+                    }
+                } else {
+                    errorCode = responseBodyResponse.code();
+                    errorMsg = responseBodyResponse.message();
+                }
+                if (!onSuccess) {
+                    httpRequest.cb.onError(new ApiException(errorCode, errorMsg));
+                    ToastUtils.showShort(errorMsg);
+                }
+            }
+            if (httpRequest.retry) {
+                RxManager.getInstance().remove(httpRequest.tag);
+            }
+            CustomProgressDialog.stopProgressDialog();
+        }
+    }
+
+    public static class HttpRequest {
+        public static final String GET = "get";
+        public static final String POST = "post";
+        public String method;//方法
+        public boolean retry;//域名
+        public String baseUrl;//域名
+        public String url;//地址
+        public Map<String, Object> params;//参数
+        public HTCallBack cb;//回调
+        public String tag;//标签
+        public Context context;//上下文，如果需要显示loading 必须传Activity的Context
+        public boolean showLoading;//是否显示loading
+        public boolean canCancel;//是否可以点击back健消失
+        public boolean canceledOnTouchOutside;//是否可以点击外部消失
+
+        public HttpRequest(HttpRequest request) {
+            this(request.retry, request.baseUrl, request.url, request.params, request.cb, request.tag, request.context, request.showLoading, request.canCancel, request.canceledOnTouchOutside);
+        }
+
+        public HttpRequest(String url, HTCallBack cb) {
+            this(url, null, cb, null);
+        }
+
+        public HttpRequest(String url, Map<String, Object> params, HTCallBack cb) {
+            this(url, params, cb, null);
+        }
+
+        public HttpRequest(String url, HTCallBack cb, Context context) {
+            this(url, null, cb, context);
+        }
+
+        public HttpRequest(String url, Map<String, Object> params, HTCallBack cb, Context context) {
+            this(true, getBaseUrl(), url, params, cb, toRequestTag(url, params), context, context instanceof Activity, context instanceof Activity, false);
+        }
+
+        public HttpRequest(boolean retry, String baseUrl, String url, Map<String, Object> params, HTCallBack cb, String tag, Context context, boolean showLoading, boolean canCancel, boolean canceledOnTouchOutside) {
+            this.retry = retry;
+            this.baseUrl = baseUrl;
+            this.url = url;
+            this.params = params;
+            this.cb = cb;
+            this.tag = tag;
+            this.context = context;
+            this.showLoading = showLoading;
+            this.canCancel = canCancel;
+            this.canceledOnTouchOutside = canceledOnTouchOutside;
         }
     }
 }
