@@ -4,13 +4,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.lester.lesterapp.bean.BannerBean;
 import com.lesterlau.base.BaseActivity;
 import com.lesterlau.http.ApiException;
 import com.lesterlau.http.HTCallBack;
 import com.lesterlau.http.HttpResponse;
 import com.lesterlau.http.RequestHelper;
-import com.lesterlau.http.RxManager;
 
 import java.util.List;
 
@@ -49,7 +48,7 @@ public class HttpTestActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(HttpResponse<List<BannerBean>, String> response) {
-                        LogUtils.e(response);
+                        LogUtils.d(response);
                         if (response.getData() == null) {
                             return;
                         }
@@ -72,7 +71,7 @@ public class HttpTestActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(HttpResponse<List<BannerBean>, String> response) {
-                        LogUtils.e(response);
+                        LogUtils.d(response);
                         if (response.getData() == null) {
                             return;
                         }

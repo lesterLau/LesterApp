@@ -20,7 +20,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".HttpTestActivity"></activity>
-        <activity android:name="com.lesterlau.base.KeepLiveActivity"></activity>
+        <activity android:name="com.lesterlau.base.keeplive.KeepLiveActivity"></activity>
+
+        <service android:name="com.lesterlau.base.keeplive.BaseService"></service>
+        <service
+            android:name="com.lesterlau.base.keeplive.KeepLiveService"
+            android:process=":remote"></service>
     </application>
 
 </manifest>

@@ -5,20 +5,24 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.Utils;
+import com.lesterlau.base.keeplive.KeepLiveReveiver;
 
 /**
  * Created by liubin on 2017/10/31.
  */
 
 public class BaseApplication extends Application {
-    private static Application instance;
-    //    protected RebootServiceReveiver rebootServiceReveiver;
+    protected static Application instance;
+    protected KeepLiveReveiver keepLiveReveiver;
     protected IntentFilter rebootIntentFilter;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtils.i("onCreate");
+        instance = this;
+        Utils.init(this);
+        LogUtils.d("onCreate");
         registerRebootReceiver();
     }
 
@@ -27,29 +31,20 @@ public class BaseApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         unregisterRebootReceiver();
-        LogUtils.i("onTerminate");
+        LogUtils.d("onTerminate");
     }
 
     protected void registerRebootReceiver() {
         rebootIntentFilter = new IntentFilter();
-        rebootIntentFilter.addAction(Intent.ACTION_TIME_TICK);
-        rebootIntentFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+        rebootIntentFilter.addAction(Intent.ACTION_REBOOT);
         rebootIntentFilter.addAction(Intent.ACTION_SCREEN_ON);
         rebootIntentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        rebootIntentFilter.addAction(Intent.ACTION_BATTERY_CHANGED);
-        rebootIntentFilter.addAction(Intent.ACTION_USER_PRESENT);
-        rebootIntentFilter.addAction("com.tencent.mm.plugin.report.service.KVCommCrossProcessReceiver");
-        rebootIntentFilter.addAction("com.tencent.mm.ui.ACTION_ACTIVE");
-        rebootIntentFilter.addAction("com.tencent.mm.ui.ACTION_DEACTIVE");
-        rebootIntentFilter.addAction("com.tencent.tmsdk.HeartBeatPlot.ACTION_HEARTBEAT_PLOT_ALARM_CYCLE");
-        rebootIntentFilter.addAction("com.tencent.mm.plugin.report.service.KVCommCrossProcessReceiver");
-        rebootIntentFilter.addAction("com.tencent.mm.Intent.ACTION_CLICK_FLOW_REPORT");
     }
 
     private void unregisterRebootReceiver() {
-//        if (rebootServiceReveiver != null) {
-//            unregisterReceiver(rebootServiceReveiver);
-//        }
+        if (keepLiveReveiver != null) {
+            unregisterReceiver(keepLiveReveiver);
+        }
     }
 
     public static Application getInstance() {

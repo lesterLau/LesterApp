@@ -1,13 +1,16 @@
-package com.lesterlau.base;
+package com.lesterlau.base.keeplive;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.lesterlau.base.R;
 
 
 /**

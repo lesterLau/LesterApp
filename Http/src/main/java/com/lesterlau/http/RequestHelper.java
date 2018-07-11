@@ -321,7 +321,7 @@ public class RequestHelper {
 
         @Override
         public void call(Response<ResponseBody> responseBodyResponse) {
-            LogUtils.i(responseBodyResponse);
+            LogUtils.d(responseBodyResponse);
             boolean intercept = false;
             if (interception != null) {
                 intercept = interception.intercept(httpRequest, responseBodyResponse);
@@ -333,7 +333,7 @@ public class RequestHelper {
                 if (responseBodyResponse.isSuccessful()) {
                     try {
                         String result = responseBodyResponse.body().string();
-                        LogUtils.i(result);
+                        LogUtils.d(result);
                         Type t = ((ParameterizedType) httpRequest.cb.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                         HttpResponse response = new Gson().fromJson(result, t);
                         if (response.isResult() || response.getCode() == 200 || response.getErrorCode() >= 0) {

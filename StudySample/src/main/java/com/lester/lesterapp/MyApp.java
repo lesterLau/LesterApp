@@ -1,30 +1,15 @@
 package com.lester.lesterapp;
 
-import android.app.Application;
-import android.util.Log;
+import android.content.Intent;
 
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ReflectUtils;
-import com.blankj.utilcode.util.Utils;
-import com.google.gson.Gson;
-import com.lesterlau.http.ApiErrorCode;
-import com.lesterlau.http.HTCallBack;
-import com.lesterlau.http.HttpResponse;
-import com.lesterlau.http.RequestHelper;
+import com.lester.lesterapp.receiver.MyReceiver;
+import com.lesterlau.base.BaseApplication;
+import com.lesterlau.base.keeplive.BaseService;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-
-public class MyApp extends Application {
+public class MyApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Utils.init(this);
 //        RequestHelper.getInstance().setInterception(new RequestHelper.Interception() {
 //            @Override
 //            public boolean intercept(RequestHelper.HttpRequest httpRequest, Response<ResponseBody> responseBodyResponse) {
@@ -35,5 +20,13 @@ public class MyApp extends Application {
 //                return httpRequest.retry;
 //            }
 //        });
+        startService(new Intent(this, BaseService.class));
+    }
+
+    @Override
+    protected void registerRebootReceiver() {
+        super.registerRebootReceiver();
+        keepLiveReveiver = new MyReceiver();
+        registerReceiver(keepLiveReveiver, rebootIntentFilter);
     }
 }

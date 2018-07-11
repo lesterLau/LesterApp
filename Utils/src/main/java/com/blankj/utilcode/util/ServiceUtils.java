@@ -5,6 +5,7 @@ import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -63,7 +64,11 @@ public final class ServiceUtils {
      */
     public static void startService(final Class<?> cls) {
         Intent intent = new Intent(Utils.getApp(), cls);
-        Utils.getApp().startService(intent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Utils.getApp().startForegroundService(intent);
+        }else {
+            Utils.getApp().startService(intent);
+        }
     }
 
     /**
