@@ -29,10 +29,10 @@ public abstract class BaseActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        LogUtils.d(TAG, "onCreate");
         instance = this;
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+        LogUtils.d(TAG, "onCreate");
         onCreateInit(savedInstanceState);
         initBase(getContentLayoutId());
         unbinder = ButterKnife.bind(this);

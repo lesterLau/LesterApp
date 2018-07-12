@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-
+apply from: 'tinker.gradle'
+//apply from: 'tinker-support.gradle'
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
@@ -19,8 +20,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation rootProject.ext.dependencies.multidex
     annotationProcessor rootProject.ext.dependencies.butterknife_compiler
+    annotationProcessor rootProject.ext.dependencies.tinker_android_anno
     implementation project(':Common')
     implementation project(':Http')
     implementation project(':Utils')

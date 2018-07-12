@@ -14,6 +14,14 @@
         android:text="test Http" />
 
     <TextView
+        android:id="@+id/tv_tinker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="test Tinker" />
+
+    <TextView
         android:id="@+id/tv_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

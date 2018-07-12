@@ -1,12 +1,19 @@
 package com.lesterlau.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.multidex.MultiDex;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
 import com.lesterlau.base.keeplive.KeepLiveReveiver;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.tinker.loader.app.TinkerApplication;
+import com.tencent.tinker.loader.shareutil.ShareConstants;
 
 /**
  * Created by liubin on 2017/10/31.
@@ -16,16 +23,16 @@ public class BaseApplication extends Application {
     protected static Application instance;
     protected KeepLiveReveiver keepLiveReveiver;
     protected IntentFilter rebootIntentFilter;
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
         Utils.init(this);
         LogUtils.d("onCreate");
+        Bugly.init(getApplicationContext(), "310366dc88", true);
         registerRebootReceiver();
     }
-
 
     @Override
     public void onTerminate() {

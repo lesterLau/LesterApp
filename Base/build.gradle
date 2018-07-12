@@ -15,8 +15,13 @@ android {
     }
 }
 dependencies {
+    api rootProject.ext.dependencies.multidex
     api rootProject.ext.dependencies.swipebacklayout
     api rootProject.ext.dependencies.butterknife
+    api rootProject.ext.dependencies.tinker_android_lib
+    api rootProject.ext.dependencies.tinker_android_anno
+    annotationProcessor rootProject.ext.dependencies.tinker_android_anno
+    api rootProject.ext.dependencies.crashreport_upgrade
     annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     implementation project(':Utils')
 }

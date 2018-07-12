@@ -3,6 +3,7 @@ package com.lester.lesterapp;
 import android.content.Intent;
 
 import com.lester.lesterapp.receiver.MyReceiver;
+import com.lester.lesterapp.service.MyService;
 import com.lesterlau.base.BaseApplication;
 import com.lesterlau.base.keeplive.BaseService;
 
@@ -20,7 +21,7 @@ public class MyApp extends BaseApplication {
 //                return httpRequest.retry;
 //            }
 //        });
-        startService(new Intent(this, BaseService.class));
+        startService(new Intent(this, MyService.class));
     }
 
     @Override

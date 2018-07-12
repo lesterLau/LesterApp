@@ -30,6 +30,7 @@ ext {
             arouter_compiler = "1.1.4",
             arouter_api = "1.3.1",
             butterknife = "8.8.1",
+            tinker = "1.9.6",
             swipebacklayout = "1.1.0"
     ]
     dependencies = [
@@ -55,6 +56,9 @@ ext {
             arouter_api                : "com.alibaba:arouter-api:$rootProject.arouter_api",
             butterknife                : "com.jakewharton:butterknife:$rootProject.butterknife",
             butterknife_compiler       : "com.jakewharton:butterknife-compiler:$rootProject.butterknife",
+            crashreport_upgrade        : "com.tencent.bugly:crashreport_upgrade:latest.release",
+            tinker_android_lib         : "com.tencent.tinker:tinker-android-lib:$rootProject.tinker",
+            tinker_android_anno         : "com.tencent.tinker:tinker-android-anno:$rootProject.tinker",
             swipebacklayout            : "me.imid.swipebacklayout.lib:library:$rootProject.swipebacklayout"
     ]
 }
