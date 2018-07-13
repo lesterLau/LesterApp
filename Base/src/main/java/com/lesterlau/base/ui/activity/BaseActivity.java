@@ -1,4 +1,4 @@
-package com.lesterlau.base;
+package com.lesterlau.base.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.Window;
 import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.LogUtils;
+import com.lesterlau.base.R;
+import com.lesterlau.base.ui.TitlePanel;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;

@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.lester.news.R;
 import com.lester.news.bean.NewsBean;
 import com.lester.news.fragment.NewsContentFragment;
-import com.lesterlau.base.BaseActivity;
+import com.lesterlau.base.ui.activity.BaseActivity;
 
 /**
  * Created by Lester on 2017/2/26.

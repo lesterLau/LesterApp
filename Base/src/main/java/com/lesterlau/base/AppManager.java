@@ -12,7 +12,6 @@ public class AppManager {
     public static void init(Application application) {
         globalApplication = application;
         Utils.init(application);
-        Bugly.init(application, "310366dc88", true);
         //ARouter配置
         if (BuildConfig.DEBUG) {           // 这两行必须写在init之前，否则这些配置在init过程中将无效
             ARouter.openLog();     // 打印日志

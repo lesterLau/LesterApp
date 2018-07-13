@@ -1,4 +1,4 @@
-package com.lesterlau.base;
+package com.lesterlau.base.ui;
 
 import android.view.View;
 

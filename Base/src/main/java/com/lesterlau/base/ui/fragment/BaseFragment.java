@@ -1,4 +1,4 @@
-package com.lesterlau.base;
+package com.lesterlau.base.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.lesterlau.base.R;
+import com.lesterlau.base.ui.TitlePanel;
 
 import java.util.List;
 

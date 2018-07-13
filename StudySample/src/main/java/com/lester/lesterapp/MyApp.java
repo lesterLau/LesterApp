@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.Utils;
 import com.lester.lesterapp.test.receiver.MyReceiver;
 import com.lester.lesterapp.test.service.MyService;
 import com.lesterlau.base.BaseApplication;
+import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 
 public class MyApp extends BaseApplication {
@@ -26,6 +27,7 @@ public class MyApp extends BaseApplication {
 //            }
 //        });
         startService(new Intent(this, MyService.class));
+        Bugly.init(this, "310366dc88", true);
     }
 
 

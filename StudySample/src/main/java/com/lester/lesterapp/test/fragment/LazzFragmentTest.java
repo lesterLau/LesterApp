@@ -3,7 +3,7 @@ package com.lester.lesterapp.test.fragment;
 import android.widget.TextView;
 
 import com.lester.lesterapp.R;
-import com.lesterlau.base.BaseFragment;
+import com.lesterlau.base.ui.fragment.BaseFragment;
 
 import butterknife.BindView;
 

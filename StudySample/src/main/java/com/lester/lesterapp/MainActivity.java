@@ -7,7 +7,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.lester.lesterapp.test.FragmentTestActivity;
 import com.lester.lesterapp.test.HttpTestActivity;
-import com.lesterlau.base.BaseActivity;
+import com.lesterlau.base.ui.activity.BaseActivity;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
 import butterknife.OnClick;

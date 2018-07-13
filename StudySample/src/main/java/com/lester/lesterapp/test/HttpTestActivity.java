@@ -6,7 +6,7 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.LogUtils;
 import com.lester.lesterapp.R;
 import com.lester.lesterapp.test.bean.BannerBean;
-import com.lesterlau.base.BaseActivity;
+import com.lesterlau.base.ui.activity.BaseActivity;
 import com.lesterlau.http.ApiException;
 import com.lesterlau.http.HTCallBack;
 import com.lesterlau.http.HttpResponse;

@@ -1,4 +1,4 @@
-package com.lesterlau.base;
+package com.lesterlau.base.ui;
 
 import android.app.Activity;
 import android.support.annotation.ColorInt;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.lesterlau.base.R;
 
 
 /**

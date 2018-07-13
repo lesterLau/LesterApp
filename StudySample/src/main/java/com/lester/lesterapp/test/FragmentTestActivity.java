@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import com.lester.lesterapp.R;
 import com.lester.lesterapp.test.fragment.LazzFragmentTest;
 import com.lester.lesterapp.test.fragment.NormalFragmentTest;
-import com.lesterlau.base.BaseActivity;
+import com.lesterlau.base.ui.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
