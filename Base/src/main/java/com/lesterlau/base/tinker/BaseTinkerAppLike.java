@@ -26,6 +26,7 @@ import android.support.multidex.MultiDex;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
+import com.lesterlau.base.AppManager;
 import com.lesterlau.base.keeplive.KeepLiveReveiver;
 import com.tencent.bugly.Bugly;
 import com.tencent.tinker.anno.DefaultLifeCycle;
@@ -75,10 +76,9 @@ public class BaseTinkerAppLike extends DefaultApplicationLike {
     public void onCreate() {
         super.onCreate();
         instance = getApplication();
-        Utils.init(instance);
-        LogUtils.d(TAG, "onCreate");
-        Bugly.init(instance, "310366dc88", true);
         registerRebootReceiver();
+        AppManager.init(instance);
+        LogUtils.d(TAG, "onCreate");
     }
 
     @Override

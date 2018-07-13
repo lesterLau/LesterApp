@@ -6,6 +6,12 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
+        //ARouter
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -20,8 +26,18 @@ dependencies {
     api rootProject.ext.dependencies.appcompat_v7
     api rootProject.ext.dependencies.design
     api rootProject.ext.dependencies.constraint_layout
-
-    implementation project(':Http')
-    implementation project(':Utils')
-    implementation project(':CustomView')
+    api rootProject.ext.dependencies.multidex
+    api rootProject.ext.dependencies.swipebacklayout
+    api rootProject.ext.dependencies.butterknife
+    api rootProject.ext.dependencies.tinker_android_lib
+    api rootProject.ext.dependencies.tinker_android_anno
+    api rootProject.ext.dependencies.crashreport_upgrade
+    api rootProject.ext.dependencies.arouter_api
+    annotationProcessor rootProject.ext.dependencies.tinker_android_anno
+    annotationProcessor rootProject.ext.dependencies.butterknife_compiler
+    annotationProcessor rootProject.ext.dependencies.arouter_compiler
+    api project(':Base')
+    api project(':Http')
+    api project(':Utils')
+    api project(':CustomView')
 }

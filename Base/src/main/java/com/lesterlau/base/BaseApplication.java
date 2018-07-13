@@ -23,15 +23,14 @@ public class BaseApplication extends Application {
     protected static Application instance;
     protected KeepLiveReveiver keepLiveReveiver;
     protected IntentFilter rebootIntentFilter;
-    
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        Utils.init(this);
-        LogUtils.d("onCreate");
-        Bugly.init(getApplicationContext(), "310366dc88", true);
         registerRebootReceiver();
+        AppManager.init(instance);
+        LogUtils.d("onCreate");
     }
 
     @Override

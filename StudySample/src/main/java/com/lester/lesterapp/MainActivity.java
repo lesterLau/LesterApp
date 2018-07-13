@@ -1,13 +1,12 @@
 package com.lester.lesterapp;
 
-import android.Manifest;
 import android.os.Environment;
 import android.view.View;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.PermissionUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.lester.lesterapp.test.FragmentTestActivity;
+import com.lester.lesterapp.test.HttpTestActivity;
 import com.lesterlau.base.BaseActivity;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
@@ -46,8 +45,10 @@ public class MainActivity extends BaseActivity {
                 TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(), Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk");
                 break;
             case R.id.tv_fragment:
+                ActivityUtils.startActivity(FragmentTestActivity.class);
                 break;
             case R.id.tv_news:
+                ARouter.getInstance().build("/news/index").navigation();
                 break;
         }
     }

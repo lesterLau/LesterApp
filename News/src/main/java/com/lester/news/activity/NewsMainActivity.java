@@ -6,24 +6,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Window;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lester.news.R;
+import com.lesterlau.base.BaseActivity;
 
 /**
  * Created by Lester on 2017/2/26.
  */
-public class NewsMainActivity extends Activity {
-
-    public static void actionStart(Context context) {
-        Intent intent = new Intent();
-        intent.setClass(context, NewsMainActivity.class);
-        context.startActivity(intent);
-    }
-
+@Route(path = "/news/index")
+public class NewsMainActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.news_main);
+    protected boolean isAttachTitle() {
+        return true;
+    }
+
+    @Override
+    protected int getContentLayoutId() {
+        return R.layout.news_main;
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }

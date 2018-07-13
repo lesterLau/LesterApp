@@ -1,4 +1,4 @@
-package com.lester.lesterapp.receiver;
+package com.lester.lesterapp.test.receiver;
 
 import android.content.Context;
 

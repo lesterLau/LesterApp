@@ -5,6 +5,12 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
+        //ARouter
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
 
     buildTypes {
@@ -15,13 +21,15 @@ android {
     }
 }
 dependencies {
-    api rootProject.ext.dependencies.multidex
-    api rootProject.ext.dependencies.swipebacklayout
-    api rootProject.ext.dependencies.butterknife
-    api rootProject.ext.dependencies.tinker_android_lib
-    api rootProject.ext.dependencies.tinker_android_anno
+    implementation rootProject.ext.dependencies.multidex
+    implementation rootProject.ext.dependencies.swipebacklayout
+    implementation rootProject.ext.dependencies.butterknife
+    implementation rootProject.ext.dependencies.tinker_android_lib
+    implementation rootProject.ext.dependencies.tinker_android_anno
+    implementation rootProject.ext.dependencies.crashreport_upgrade
+    implementation rootProject.ext.dependencies.arouter_api
     annotationProcessor rootProject.ext.dependencies.tinker_android_anno
-    api rootProject.ext.dependencies.crashreport_upgrade
     annotationProcessor rootProject.ext.dependencies.butterknife_compiler
+    annotationProcessor rootProject.ext.dependencies.arouter_compiler
     implementation project(':Utils')
 }

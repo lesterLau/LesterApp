@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
+import com.lesterlau.base.AppManager;
 import com.lesterlau.base.keeplive.KeepLiveReveiver;
 import com.tencent.bugly.Bugly;
 import com.tencent.tinker.loader.app.TinkerApplication;
@@ -30,10 +31,9 @@ public class BaseTinkerApplication extends TinkerApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        Utils.init(this);
-        LogUtils.d("onCreate");
-        Bugly.init(getApplicationContext(), "310366dc88", true);
         registerRebootReceiver();
+        AppManager.init(instance);
+        LogUtils.d("onCreate");
     }
 
     @Override

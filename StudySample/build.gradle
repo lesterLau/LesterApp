@@ -9,6 +9,12 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+        //ARouter
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -22,11 +28,9 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     annotationProcessor rootProject.ext.dependencies.tinker_android_anno
+    annotationProcessor rootProject.ext.dependencies.arouter_compiler
     implementation project(':Common')
-    implementation project(':Http')
-    implementation project(':Utils')
-    implementation project(':Base')
     if (!isModule.toBoolean()) {
-
+        implementation project(':News')
     }
 }

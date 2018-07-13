@@ -1,4 +1,4 @@
-package com.lester.lesterapp.bean;
+package com.lester.lesterapp.test.bean;
 
 public class BannerBean {
 

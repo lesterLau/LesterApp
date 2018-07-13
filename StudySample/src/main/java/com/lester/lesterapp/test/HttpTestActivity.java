@@ -1,10 +1,11 @@
-package com.lester.lesterapp;
+package com.lester.lesterapp.test;
 
 import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.lester.lesterapp.bean.BannerBean;
+import com.lester.lesterapp.R;
+import com.lester.lesterapp.test.bean.BannerBean;
 import com.lesterlau.base.BaseActivity;
 import com.lesterlau.http.ApiException;
 import com.lesterlau.http.HTCallBack;
@@ -44,7 +45,7 @@ public class HttpTestActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_get:
-                RequestHelper.getInstance().get(new RequestHelper.HttpRequest("banner/json111", new HTCallBack<HttpResponse<List<BannerBean>, String>>() {
+                RequestHelper.getInstance().get(new RequestHelper.HttpRequest("banner/json", new HTCallBack<HttpResponse<List<BannerBean>, String>>() {
 
                     @Override
                     public void onSuccess(HttpResponse<List<BannerBean>, String> response) {

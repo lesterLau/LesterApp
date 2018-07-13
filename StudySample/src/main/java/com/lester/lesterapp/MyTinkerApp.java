@@ -2,8 +2,8 @@ package com.lester.lesterapp;
 
 import android.content.Intent;
 
-import com.lester.lesterapp.receiver.MyReceiver;
-import com.lester.lesterapp.service.MyService;
+import com.lester.lesterapp.test.receiver.MyReceiver;
+import com.lester.lesterapp.test.service.MyService;
 import com.lesterlau.base.tinker.BaseTinkerApplication;
 
 public class MyTinkerApp extends BaseTinkerApplication {

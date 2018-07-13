@@ -2,13 +2,12 @@ package com.lester.lesterapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
-import com.lester.lesterapp.receiver.MyReceiver;
-import com.lester.lesterapp.service.MyService;
+import com.lester.lesterapp.test.receiver.MyReceiver;
+import com.lester.lesterapp.test.service.MyService;
 import com.lesterlau.base.BaseApplication;
 import com.tencent.bugly.beta.Beta;
 
@@ -48,10 +47,4 @@ public class MyApp extends BaseApplication {
         keepLiveReveiver = new MyReceiver();
         registerReceiver(keepLiveReveiver, rebootIntentFilter);
     }
-
-    protected void setStrictMode() {
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().permitAll().build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectAll().penaltyLog().build());
-    }
-
 }

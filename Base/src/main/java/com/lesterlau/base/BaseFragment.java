@@ -72,12 +72,8 @@ public abstract class BaseFragment extends android.support.v4.app.Fragment {
      * 数据懒加载判断
      */
     public void lazzLodeData() {
-        //隐藏状态下不加载数据
-        if (!isPrepare || isVisibleToUser) {
-            return;
-        }
-        //懒加载非第一次的情况下不加载数据
-        if (isLazzLoad() && !isFirst) {
+        //隐藏状态下或者懒加载非第一次的情况下 不加载数据
+        if (!isPrepare || !isVisibleToUser || isLazzLoad() && !isFirst) {
             return;
         }
         initData();
