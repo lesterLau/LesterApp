@@ -1,11 +1,13 @@
 package com.lesterlau.base.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,7 +21,7 @@ import com.lesterlau.base.R;
 
 public class TitlePanel extends BasePanel {
 
-    public TitlePanel(Activity context, LinearLayout container) {
+    public TitlePanel(Context context, ViewGroup container) {
         super(context);
         setContentView(R.layout.base_title, container, true);
     }
@@ -165,7 +167,7 @@ public class TitlePanel extends BasePanel {
      * @param resId
      * @param listener
      */
-    public void setLeftImage( int resId, NoDoubleClickListener listener) {
+    public void setLeftImage(int resId, NoDoubleClickListener listener) {
         setLeftView(resId, null, listener);
     }
 
@@ -174,7 +176,7 @@ public class TitlePanel extends BasePanel {
      *
      * @param resId
      */
-    public void setLeftImage( int resId) {
+    public void setLeftImage(int resId) {
         setLeftView(resId, null, null);
     }
 
@@ -427,6 +429,13 @@ public class TitlePanel extends BasePanel {
         //关闭键盘并finish当前页面
         if (context instanceof Activity) {
             ((Activity) context).finish();
+        }
+    }
+
+    @Override
+    public void setVisibility(int visibility) {
+        if (contentView != null && contentView.findViewById(R.id.fl_title_root) != null) {
+            contentView.findViewById(R.id.fl_title_root).setVisibility(visibility);
         }
     }
 }

@@ -27,6 +27,11 @@ public class HttpTestActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isListenerNetwork() {
+        return true;
+    }
+
+    @Override
     protected int getContentLayoutId() {
         return R.layout.activity_http_test;
     }

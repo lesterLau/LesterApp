@@ -1,94 +1,46 @@
 package com.lesterlau.base.ui.activity;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.lesterlau.base.R;
+import com.lesterlau.base.keeplive.NetworkReceiver;
+import com.lesterlau.base.ui.ErrorPanel;
 import com.lesterlau.base.ui.TitlePanel;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-
-/**
- * Created by liubin on 2017/10/10.
- */
-
-public abstract class BaseActivity extends SwipeBackActivity {
-    private static final String TAG = BaseActivity.class.getSimpleName();
-    protected Activity instance;
+public abstract class BaseActivity extends BaseSimpleActivity implements NetworkReceiver.CallBack {
     /**
-     * 标题栏处理
+     * 标题栏统一处理
      */
     protected TitlePanel titlePanel;
-    private Unbinder unbinder;
+    /**
+     * 数据加载出错统一处理
+     */
+    protected ErrorPanel errorPanel;
+
+    protected View contentView;
+
+    protected NetworkReceiver networkReceiver;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        instance = this;
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        super.onCreate(savedInstanceState);
-        LogUtils.d(TAG, "onCreate");
-        onCreateInit(savedInstanceState);
-        initBase(getContentLayoutId());
-        unbinder = ButterKnife.bind(this);
-        initView();
-        initData();
-    }
-
-    @Override
-    public void finish() {
-        LogUtils.d(TAG, "finish");
-        unbinder.unbind();
-        super.finish();
-    }
-
-    private void initBase(int layoutResID) {
-        if (isAttachTitle()) {
-            LayoutInflater inflater = LayoutInflater.from(this);
-            View baseView = inflater.inflate(R.layout.base_content_layout, null);
-            LinearLayout baseContent = baseView.findViewById(R.id.base_content);
-            if (titlePanel == null) {
-                titlePanel = new TitlePanel(this, baseContent);
-            }
-            inflater.inflate(layoutResID, baseContent, true);
-            setContentView(baseView);
-        } else {
-            setContentView(getContentLayoutId());
+    protected void initBase(int layoutResID) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        ViewGroup baseView = (ViewGroup) inflater.inflate(R.layout.base_content_layout, null);
+        titlePanel = new TitlePanel(this, baseView);
+        inflater.inflate(layoutResID, baseView, true);
+        contentView = baseView.getChildAt(1);
+        errorPanel = new ErrorPanel(this, baseView);
+        setContentView(baseView);
+        if (!isAttachTitle()) {
+            titlePanel.setVisibility(View.GONE);
+        }
+        if (isListenerNetwork()) {
+            registerNetworkReceiver();
         }
     }
-
-    /**
-     * onCreateInit  Bundle处理
-     *
-     * @param savedInstanceState
-     */
-    protected void onCreateInit(Bundle savedInstanceState) {
-    }
-
-    /**
-     * 布局id
-     * 需要子类重写
-     *
-     * @return
-     */
-    protected abstract int getContentLayoutId();
-
-    /**
-     * 初始化控件
-     */
-    protected abstract void initView();
-
-    /**
-     * 初始化数据
-     */
-    protected abstract void initData();
 
     /**
      * 是否添加公共title
@@ -98,4 +50,54 @@ public abstract class BaseActivity extends SwipeBackActivity {
     protected boolean isAttachTitle() {
         return false;
     }
+
+    /**
+     * 是否监听网络
+     *
+     * @return
+     */
+    protected boolean isListenerNetwork() {
+        return false;
+    }
+
+    protected void showError() {
+        errorPanel.setVisibility(View.VISIBLE);
+        contentView.setVisibility(View.GONE);
+    }
+
+    protected void showNormal() {
+        errorPanel.setVisibility(View.GONE);
+        contentView.setVisibility(View.VISIBLE);
+    }
+
+    protected void registerNetworkReceiver() {
+        networkReceiver = new NetworkReceiver(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(networkReceiver, intentFilter);
+    }
+
+    @Override
+    public void connectNetwork() {
+        showNormal();
+    }
+
+    @Override
+    public void connectWifi() {
+
+    }
+
+    @Override
+    public void disConnectNetwork() {
+        showError();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        if (networkReceiver != null) {
+            unregisterReceiver(networkReceiver);
+        }
+    }
+
 }

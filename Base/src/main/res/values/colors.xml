@@ -7,4 +7,8 @@
     <color name="titleLeftTextColor">@android:color/white</color>
     <color name="titleCenterTextColor">@android:color/white</color>
     <color name="titleRightTextColor">@android:color/white</color>
+    <color name="errorTipsColor">#999999</color>
+    <color name="errorReloadColor">#999999</color>
+    <color name="reloadNormalColor">#DCBB6C</color>
+    <color name="reloadPressedColor">#ccaa66</color>
 </resources>

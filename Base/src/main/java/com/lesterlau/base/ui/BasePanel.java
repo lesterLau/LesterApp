@@ -60,6 +60,8 @@ public abstract class BasePanel {
 
     /**
      * 设置显示
+     * 当调用inflate方法attachToRoot参数未true的时候contentView为parentView
+     * 需要重写该方法
      */
     public void setVisibility(int visibility) {
         if (contentView != null) {

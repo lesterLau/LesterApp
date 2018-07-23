@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Base</string>
+    <string name="reload">Reload</string>
+    <string name="error_tips">数据加载失败</string>
 </resources>

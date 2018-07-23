@@ -1,13 +1,10 @@
 package com.lesterlau.http;
 
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.view.KeyEvent;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 
 /**
  * @author liubin
