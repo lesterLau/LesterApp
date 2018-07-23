@@ -33,4 +33,9 @@ public class LazzFragmentTest extends BaseFragment {
     protected boolean isLazzLoad() {
         return true;
     }
+
+    @Override
+    protected boolean isListenerNetwork() {
+        return true;
+    }
 }
