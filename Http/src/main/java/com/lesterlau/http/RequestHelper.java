@@ -367,7 +367,7 @@ public class RequestHelper {
         public static final String GET = "get";
         public static final String POST = "post";
         public String method;//方法
-        public boolean retry;//域名
+        public boolean retry;//重试
         public String baseUrl;//域名
         public String url;//地址
         public Map<String, Object> params;//参数

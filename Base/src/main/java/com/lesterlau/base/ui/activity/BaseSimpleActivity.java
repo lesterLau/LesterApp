@@ -14,7 +14,6 @@ import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 /**
  * Created by liubin on 2017/10/10.
  */
-
 public abstract class BaseSimpleActivity extends SwipeBackActivity {
     private static final String TAG = BaseSimpleActivity.class.getSimpleName();
     protected Activity instance;

@@ -11,6 +11,9 @@ import com.lesterlau.base.keeplive.NetworkReceiver;
 import com.lesterlau.base.ui.ErrorPanel;
 import com.lesterlau.base.ui.TitlePanel;
 
+/**
+ * Created by liubin on 2017/10/10.
+ */
 public abstract class BaseActivity extends BaseSimpleActivity implements NetworkReceiver.CallBack {
     /**
      * 标题栏统一处理

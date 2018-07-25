@@ -11,6 +11,9 @@ import android.widget.TextView;
 
 import com.lesterlau.base.R;
 
+/**
+ * Created by liubin on 2017/10/10.
+ */
 public class ErrorPanel extends BasePanel {
     public ErrorPanel(Context context, ViewGroup parentView) {
         super(context);

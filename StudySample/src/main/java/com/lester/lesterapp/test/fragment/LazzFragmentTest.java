@@ -1,9 +1,13 @@
 package com.lester.lesterapp.test.fragment;
 
+import android.view.View;
 import android.widget.TextView;
 
 import com.lester.lesterapp.R;
+import com.lester.lesterapp.observe.MsgMgr;
+import com.lesterlau.base.ui.NoDoubleClickListener;
 import com.lesterlau.base.ui.fragment.BaseFragment;
+import com.lesterlau.http.RxBus;
 
 import butterknife.BindView;
 
@@ -20,7 +24,12 @@ public class LazzFragmentTest extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        tvTest.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+                MsgMgr.getInstance().sendMsg("key", "value----->第" + count + "次加载数据");
+            }
+        });
     }
 
     @Override
