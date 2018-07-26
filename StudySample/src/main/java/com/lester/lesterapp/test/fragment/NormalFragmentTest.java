@@ -43,4 +43,13 @@ public class NormalFragmentTest extends BaseFragment implements PObserver {
     public void onMessage(String key, Object value) {
         ToastUtils.showShort("key=" + key + ",value=" + value);
     }
+    @Override
+    protected boolean isAttachTitle() {
+        return true;
+    }
+
+    @Override
+    protected boolean isListenerNetwork() {
+        return true;
+    }
 }

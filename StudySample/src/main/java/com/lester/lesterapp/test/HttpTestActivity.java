@@ -12,6 +12,8 @@ import com.lesterlau.http.HTCallBack;
 import com.lesterlau.http.HttpResponse;
 import com.lesterlau.http.RequestHelper;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,7 +48,7 @@ public class HttpTestActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_get, R.id.tv_get_with_params, R.id.tv_post, R.id.tv_post_with_params})
+    @OnClick({R.id.tv_get, R.id.tv_get_with_params, R.id.tv_post, R.id.tv_post_with_params, R.id.tv_eventbus})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_get:
@@ -98,6 +100,9 @@ public class HttpTestActivity extends BaseActivity {
             case R.id.tv_post:
                 break;
             case R.id.tv_post_with_params:
+                break;
+            case R.id.tv_eventbus:
+                EventBus.getDefault().post(new Object());
                 break;
         }
     }

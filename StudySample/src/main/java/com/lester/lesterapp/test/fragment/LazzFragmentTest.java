@@ -7,7 +7,6 @@ import com.lester.lesterapp.R;
 import com.lester.lesterapp.observe.MsgMgr;
 import com.lesterlau.base.ui.NoDoubleClickListener;
 import com.lesterlau.base.ui.fragment.BaseFragment;
-import com.lesterlau.http.RxBus;
 
 import butterknife.BindView;
 
@@ -40,6 +39,11 @@ public class LazzFragmentTest extends BaseFragment {
 
     @Override
     protected boolean isLazzLoad() {
+        return true;
+    }
+
+    @Override
+    protected boolean isAttachTitle() {
         return true;
     }
 

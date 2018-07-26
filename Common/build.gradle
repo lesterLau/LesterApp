@@ -33,6 +33,7 @@ dependencies {
     api rootProject.ext.dependencies.tinker_android_anno
     api rootProject.ext.dependencies.crashreport_upgrade
     api rootProject.ext.dependencies.arouter_api
+    api rootProject.ext.dependencies.eventbus
     annotationProcessor rootProject.ext.dependencies.tinker_android_anno
     annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     annotationProcessor rootProject.ext.dependencies.arouter_compiler

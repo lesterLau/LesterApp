@@ -21,11 +21,6 @@ public class FragmentTestActivity extends BaseActivity {
     private List<Fragment> fragmentList = new ArrayList<>();
 
     @Override
-    protected boolean isAttachTitle() {
-        return true;
-    }
-
-    @Override
     protected int getContentLayoutId() {
         return R.layout.activity_fragment_test;
     }
@@ -34,6 +29,7 @@ public class FragmentTestActivity extends BaseActivity {
     protected void initView() {
         fragmentList.add(new LazzFragmentTest());
         fragmentList.add(new NormalFragmentTest());
+        fragmentList.add(new MvpFragmentTest());
         pager.setAdapter(new FragPagerAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOffscreenPageLimit(fragmentList.size());
     }

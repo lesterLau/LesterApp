@@ -1,16 +1,21 @@
 package com.lester.lesterapp;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.lester.lesterapp.test.FragmentTestActivity;
 import com.lester.lesterapp.test.HttpTestActivity;
-import com.lesterlau.base.ui.NoDoubleClickListener;
+import com.lester.lesterapp.test.MvpTestActivity;
 import com.lesterlau.base.ui.activity.BaseActivity;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.OnClick;
 
@@ -28,13 +33,19 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onCreateInit(Bundle savedInstanceState) {
+        super.onCreateInit(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
     protected void initView() {
-        NoDoubleClickListener listener = new NoDoubleClickListener() {
-            @Override
-            public void onNoDoubleClick(View v) {
-                showNormal();
-            }
-        };
+//        NoDoubleClickListener listener = new NoDoubleClickListener() {
+//            @Override
+//            public void onNoDoubleClick(View v) {
+//                showNormal();
+//            }
+//        };
 //        errorPanel.setErrorIcon(R.mipmap.ic_launcher);
 //        errorPanel.setErrorTips("数据加载失败了~！");
 //        errorPanel.setErrorTips("数据加载失败了~！", Color.RED);
@@ -44,7 +55,7 @@ public class MainActivity extends BaseActivity {
 //        errorPanel.setErrorListener("刷新");
 //        errorPanel.setErrorListener("刷新",Color.RED);
 //        errorPanel.setErrorListener("刷新",Color.RED,listener);
-        errorPanel.setErrorListener(R.string.app_name);
+//        errorPanel.setErrorListener(R.string.app_name);
 //        errorPanel.setErrorListener("刷新",Color.RED);
 //        errorPanel.setErrorListener("刷新",Color.RED,listener);
     }
@@ -54,7 +65,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_http, R.id.tv_tinker, R.id.tv_fragment, R.id.tv_news, R.id.tv_show_error})
+    @OnClick({R.id.tv_http, R.id.tv_tinker, R.id.tv_fragment, R.id.tv_news, R.id.tv_show_error, R.id.tv_mvp_test})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_http:
@@ -72,7 +83,20 @@ public class MainActivity extends BaseActivity {
             case R.id.tv_show_error:
                 showError();
                 break;
+            case R.id.tv_mvp_test:
+                ActivityUtils.startActivity(MvpTestActivity.class);
+                break;
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Object o) {
+        ToastUtils.showShort("EventBus收到了一条消息");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".test.HttpTestActivity"></activity>
         <activity android:name=".test.FragmentTestActivity"></activity>
+        <activity android:name=".test.MvpTestActivity"></activity>
 
         <activity android:name="com.lesterlau.base.keeplive.KeepLiveActivity"></activity>
         <activity

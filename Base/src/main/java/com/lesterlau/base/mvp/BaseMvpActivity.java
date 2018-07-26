@@ -1,20 +1,25 @@
-package com.lesterlau.base.ui.activity;
+package com.lesterlau.base.mvp;
 
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.lesterlau.base.R;
 import com.lesterlau.base.keeplive.NetworkReceiver;
+import com.lesterlau.base.mvp.presenter.IBasePresenter;
+import com.lesterlau.base.mvp.view.IBaseView;
 import com.lesterlau.base.ui.ErrorPanel;
 import com.lesterlau.base.ui.TitlePanel;
+import com.lesterlau.base.ui.activity.BaseSimpleActivity;
 
 /**
- * Created by liubin on 2017/10/10.
+ * @Author lester
+ * @Date 2018/7/24
  */
-public abstract class BaseActivity extends BaseSimpleActivity implements NetworkReceiver.CallBack {
+public abstract class BaseMvpActivity<T extends IBasePresenter> extends BaseSimpleActivity implements IBaseView, NetworkReceiver.CallBack {
+    protected T mPresenter;
     /**
      * 标题栏统一处理
      */
@@ -27,6 +32,12 @@ public abstract class BaseActivity extends BaseSimpleActivity implements Network
     protected View contentView;
 
     protected NetworkReceiver networkReceiver;
+
+    @Override
+    protected void onCreateInit(Bundle savedInstanceState) {
+        super.onCreateInit(savedInstanceState);
+        mPresenter = initPresenter();
+    }
 
     @Override
     protected void initBase(int layoutResID) {
@@ -44,6 +55,19 @@ public abstract class BaseActivity extends BaseSimpleActivity implements Network
             registerNetworkReceiver();
         }
     }
+
+    @Override
+    protected void initView() {
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
+    }
+
+    @Override
+    protected void initData() {
+    }
+
+    protected abstract T initPresenter();
 
     /**
      * 是否添加公共title
@@ -63,12 +87,14 @@ public abstract class BaseActivity extends BaseSimpleActivity implements Network
         return false;
     }
 
-    protected void showError() {
+    @Override
+    public void showError() {
         errorPanel.setVisibility(View.VISIBLE);
         contentView.setVisibility(View.GONE);
     }
 
-    protected void showNormal() {
+    @Override
+    public void showNormal() {
         errorPanel.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
     }
@@ -96,10 +122,15 @@ public abstract class BaseActivity extends BaseSimpleActivity implements Network
     }
 
     @Override
-    public void finish() {
-        super.finish();
+    public void onStop() {
+        super.onStop();
         if (networkReceiver != null) {
             unregisterReceiver(networkReceiver);
         }
+        if (mPresenter != null) {
+            mPresenter.detachView();
+            mPresenter = null;
+        }
     }
+
 }
