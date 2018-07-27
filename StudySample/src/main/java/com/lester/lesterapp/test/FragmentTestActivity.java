@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager;
 
 import com.lester.lesterapp.R;
 import com.lester.lesterapp.test.fragment.LazzFragmentTest;
+import com.lester.lesterapp.test.fragment.MvpFragmentTest;
+import com.lester.lesterapp.test.fragment.MvvmFragmentTest;
 import com.lester.lesterapp.test.fragment.NormalFragmentTest;
 import com.lesterlau.base.ui.activity.BaseActivity;
 
@@ -30,6 +32,7 @@ public class FragmentTestActivity extends BaseActivity {
         fragmentList.add(new LazzFragmentTest());
         fragmentList.add(new NormalFragmentTest());
         fragmentList.add(new MvpFragmentTest());
+        fragmentList.add(new MvvmFragmentTest());
         pager.setAdapter(new FragPagerAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOffscreenPageLimit(fragmentList.size());
     }

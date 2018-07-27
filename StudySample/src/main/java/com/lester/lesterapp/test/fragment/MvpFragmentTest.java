@@ -1,4 +1,4 @@
-package com.lester.lesterapp.test;
+package com.lester.lesterapp.test.fragment;
 
 import android.widget.TextView;
 

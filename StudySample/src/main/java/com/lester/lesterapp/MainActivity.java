@@ -10,6 +10,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.lester.lesterapp.test.FragmentTestActivity;
 import com.lester.lesterapp.test.HttpTestActivity;
 import com.lester.lesterapp.test.MvpTestActivity;
+import com.lester.lesterapp.test.MvvmTestActivity;
 import com.lesterlau.base.ui.activity.BaseActivity;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
@@ -65,7 +66,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_http, R.id.tv_tinker, R.id.tv_fragment, R.id.tv_news, R.id.tv_show_error, R.id.tv_mvp_test})
+    @OnClick({R.id.tv_http, R.id.tv_tinker, R.id.tv_fragment, R.id.tv_news, R.id.tv_show_error, R.id.tv_mvp_test, R.id.tv_mvvm_test})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_http:
@@ -85,6 +86,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tv_mvp_test:
                 ActivityUtils.startActivity(MvpTestActivity.class);
+                break;
+            case R.id.tv_mvvm_test:
+                ActivityUtils.startActivity(MvvmTestActivity.class);
                 break;
         }
     }

@@ -9,7 +9,7 @@ import com.lesterlau.base.mvp.presenter.BasePresenter;
  */
 public class TestPresenter extends BasePresenter<TestContract.View> implements TestContract.Presenter {
     @Override
-    public void setTestStr(CharSequence charSequence) {
+    public void setTestStr(CharSequence charSequence)  {
         mView.showTest(charSequence);
     }
 }
