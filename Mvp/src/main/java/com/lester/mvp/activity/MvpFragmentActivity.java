@@ -1,22 +1,18 @@
-package com.lester.lesterapp.test;
+package com.lester.mvp.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.lester.lesterapp.R;
-import com.lester.lesterapp.test.fragment.LazzFragmentTest;
-import com.lester.lesterapp.test.fragment.NormalFragmentTest;
+import com.lester.mvp.R;
+import com.lester.mvp.fragment.MvpFragmentTest;
 import com.lesterlau.base.ui.activity.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-
-public class FragmentTestActivity extends BaseActivity {
-    @BindView(R.id.pager)
+public class MvpFragmentActivity extends BaseActivity {
     ViewPager pager;
     private List<Fragment> fragmentList = new ArrayList<>();
 
@@ -27,8 +23,8 @@ public class FragmentTestActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        fragmentList.add(new LazzFragmentTest());
-        fragmentList.add(new NormalFragmentTest());
+        pager = (ViewPager) findViewById(R.id.pager);
+        fragmentList.add(new MvpFragmentTest());
         pager.setAdapter(new FragPagerAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOffscreenPageLimit(fragmentList.size());
     }

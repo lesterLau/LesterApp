@@ -1,10 +1,15 @@
-apply plugin: 'com.android.application'
-//apply from: 'tinker.gradle'
-apply from: 'tinker-support.gradle'
+if (isModule.toBoolean()) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
+
     defaultConfig {
-        applicationId "com.laulester.lesterapp"
+        if (isModule.toBoolean()) {
+            applicationId "com.laulester.lesterapp.mvvm"
+        }
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -19,6 +24,20 @@ android {
     dataBinding {
         enabled true
     }
+    sourceSets {
+        main {
+            if (isModule.toBoolean()) {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile "src/main/AndroidManifest.xml"
+                //集成开发模式下则需要排除debug文件夹中的所有Java文件
+                java {
+                    exclude 'debug/**'
+                }
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -27,15 +46,10 @@ android {
     }
 }
 
+
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     annotationProcessor rootProject.ext.dependencies.tinker_android_anno
+    annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     annotationProcessor rootProject.ext.dependencies.arouter_compiler
     implementation project(':Common')
-    if (!isModule.toBoolean()) {
-        implementation project(':News')
-        implementation project(':Mvp')
-        implementation project(':Mvvm')
-    }
 }

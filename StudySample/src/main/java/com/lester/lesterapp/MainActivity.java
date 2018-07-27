@@ -9,8 +9,6 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.lester.lesterapp.test.FragmentTestActivity;
 import com.lester.lesterapp.test.HttpTestActivity;
-import com.lester.lesterapp.test.MvpTestActivity;
-import com.lester.lesterapp.test.MvvmTestActivity;
 import com.lesterlau.base.ui.activity.BaseActivity;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
@@ -85,10 +83,10 @@ public class MainActivity extends BaseActivity {
                 showError();
                 break;
             case R.id.tv_mvp_test:
-                ActivityUtils.startActivity(MvpTestActivity.class);
+                ARouter.getInstance().build("/mvp/index").navigation();
                 break;
             case R.id.tv_mvvm_test:
-                ActivityUtils.startActivity(MvvmTestActivity.class);
+                ARouter.getInstance().build("/mvvm/index").navigation();
                 break;
         }
     }
