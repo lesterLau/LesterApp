@@ -22,7 +22,7 @@ public class FragmentTestActivity extends BaseActivity {
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.activity_fragment_test;
+        return R.layout.activity_mvvm_fragment_test;
     }
 
     @Override

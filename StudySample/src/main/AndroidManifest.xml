@@ -26,6 +26,11 @@
         </activity>
         <activity android:name=".test.HttpTestActivity"></activity>
         <activity android:name=".test.FragmentTestActivity"></activity>
+        <activity android:name=".test.ViewTestActivity"></activity>
+        <activity android:name=".test.view.CircleImageActivity"></activity>
+        <activity android:name=".test.view.AspectRatioActivity"></activity>
+        <activity android:name=".test.view.InterceptTouchActivity"></activity>
+        <activity android:name=".test.view.FlowActivity"></activity>
 
         <activity android:name="com.lesterlau.base.keeplive.KeepLiveActivity"></activity>
         <activity

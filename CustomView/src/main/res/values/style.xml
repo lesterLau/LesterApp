@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============== 动画 ==================-->
+    <style name="AnimScaleInScaleOutOverShoot" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/scale_in_shot</item>
+        <item name="android:windowExitAnimation">@anim/scale_out</item>
+        <item name="android:interpolator">@anim/left_in</item>
+    </style>
+
+    <style name="AnimDownInDownOutOverShoot" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/down_in</item>
+        <item name="android:windowExitAnimation">@anim/down_out</item>
+        <item name="android:interpolator">@anim/left_in</item>
+    </style>
+</resources>

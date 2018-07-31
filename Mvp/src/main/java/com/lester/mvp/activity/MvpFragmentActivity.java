@@ -18,7 +18,7 @@ public class MvpFragmentActivity extends BaseActivity {
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.activity_fragment_test;
+        return R.layout.activity_mvp_fragment_test;
     }
 
     @Override

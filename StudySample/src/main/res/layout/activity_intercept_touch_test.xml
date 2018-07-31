@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.lesterlau.view.intercept.InterceptTouchLinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.lesterlau.view.ChangeColorTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AspectRatioLinearLayout"
+                app:endColor="@android:color/holo_blue_light"
+                app:startColor="@android:color/holo_red_light"></com.lesterlau.view.ChangeColorTextView>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon" />
+        </com.lesterlau.view.intercept.InterceptTouchLinearLayout>
+
+        <com.lesterlau.view.intercept.InterceptTouchRelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_blue_bright">
+
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon" />
+
+            <com.lesterlau.view.ChangeColorTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/icon"
+                android:layout_centerHorizontal="true"
+                android:text="AspectRatioRelativeLayout"
+                app:endColor="@android:color/holo_red_light"
+                app:startColor="@android:color/holo_orange_light"></com.lesterlau.view.ChangeColorTextView>
+
+        </com.lesterlau.view.intercept.InterceptTouchRelativeLayout>
+    </LinearLayout>
+</ScrollView>
