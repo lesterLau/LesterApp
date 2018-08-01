@@ -24,6 +24,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        externalNativeBuild {
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
     }
 }
 
@@ -37,5 +44,6 @@ dependencies {
         implementation project(':News')
         implementation project(':Mvp')
         implementation project(':Mvvm')
+        implementation project(':Jni')
     }
 }

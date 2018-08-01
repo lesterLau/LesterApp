@@ -65,7 +65,15 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_view, R.id.tv_http, R.id.tv_tinker, R.id.tv_fragment, R.id.tv_news, R.id.tv_show_error, R.id.tv_mvp_test, R.id.tv_mvvm_test})
+    @OnClick({R.id.tv_view,
+            R.id.tv_http,
+            R.id.tv_tinker,
+            R.id.tv_fragment,
+            R.id.tv_news,
+            R.id.tv_show_error,
+            R.id.tv_mvp_test,
+            R.id.tv_mvvm_test,
+            R.id.tv_jni_test})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_view:
@@ -91,6 +99,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tv_mvvm_test:
                 ARouter.getInstance().build("/mvvm/index").navigation();
+                break;
+            case R.id.tv_jni_test:
+                ARouter.getInstance().build("/jni/index").navigation();
                 break;
         }
     }

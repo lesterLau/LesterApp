@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         if (isModule.toBoolean()) {
-            applicationId "com.laulester.lesterapp.mvp"
+            applicationId "com.laulester.lesterapp.jni"
         }
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
@@ -19,6 +19,10 @@ android {
             annotationProcessorOptions {
                 arguments = [moduleName: project.getName()]
             }
+        }
+        ndk {
+            moduleName "jni-test"
+            abiFilters "armeabi-v7a", "x86"
         }
     }
     sourceSets {
@@ -43,6 +47,7 @@ android {
         }
         externalNativeBuild {
             ndkBuild {
+                path 'src/main/jni/Android.mk'
             }
         }
     }
@@ -53,5 +58,4 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies.tinker_android_anno
     annotationProcessor rootProject.ext.dependencies.butterknife_compiler
     annotationProcessor rootProject.ext.dependencies.arouter_compiler
-    implementation project(':Common')
-}
+    implementation project(':Common')}

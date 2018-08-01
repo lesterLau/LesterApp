@@ -68,4 +68,12 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="mvvm test" />
+
+    <TextView
+        android:id="@+id/tv_jni_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="jni test" />
 </LinearLayout>
