@@ -76,11 +76,12 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="jni test" />
+
     <TextView
         android:id="@+id/tv_flutter_test"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="flutter test" />
+        android:text="仿WanAndroid客户端 Flutter版 \nhot reload步骤：1，在my_flutter下使用Terminal或者命令行执行命令【flutter attach】，等出现listenring之后执行第二部 \n2,运行LesterApp.\3,在my_flutter下使用Terminal或者命令行执行命令r或者R" />
 </LinearLayout>
