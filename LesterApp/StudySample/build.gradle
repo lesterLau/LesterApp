@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+//apply from: 'tinker.gradle'
+apply from: 'tinker-support.gradle'
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        applicationId "com.laulester.lesterapp"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        //ARouter
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+    dataBinding {
+        enabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        externalNativeBuild {
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    annotationProcessor rootProject.ext.dependencies.butterknife_compiler
+    annotationProcessor rootProject.ext.dependencies.tinker_android_anno
+    annotationProcessor rootProject.ext.dependencies.arouter_compiler
+    implementation project(':Common')
+    if (!isModule.toBoolean()) {
+        implementation project(':News')
+        implementation project(':Mvp')
+        implementation project(':Mvvm')
+        implementation project(':Jni')
+		implementation project(':flutter')
+    }
+}
