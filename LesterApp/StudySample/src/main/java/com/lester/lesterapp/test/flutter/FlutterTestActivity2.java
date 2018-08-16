@@ -1,4 +1,4 @@
-package com.lester.lesterapp.test;
+package com.lester.lesterapp.test.flutter;
 
 import android.support.v4.app.FragmentTransaction;
 
@@ -7,7 +7,7 @@ import com.lesterlau.base.ui.activity.BaseActivity;
 
 import io.flutter.facade.Flutter;
 
-public class FlutterTestActivity extends BaseActivity {
+public class FlutterTestActivity2 extends BaseActivity {
 
     @Override
     protected boolean isAttachTitle() {
@@ -27,7 +27,7 @@ public class FlutterTestActivity extends BaseActivity {
     @Override
     protected void initView() {
         FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.root, Flutter.createFragment("route1"));
+        tx.replace(R.id.root, Flutter.createFragment("route2"));
         tx.commit();
     }
 

@@ -7,10 +7,11 @@ import android.view.View;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.lester.lesterapp.test.FlutterTestActivity;
+import com.lester.lesterapp.test.flutter.FlutterTestActivity;
 import com.lester.lesterapp.test.FragmentTestActivity;
 import com.lester.lesterapp.test.HttpTestActivity;
 import com.lester.lesterapp.test.ViewTestActivity;
+import com.lester.lesterapp.test.flutter.FlutterTestActivity2;
 import com.lesterlau.base.ui.activity.BaseActivity;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 
@@ -75,7 +76,8 @@ public class MainActivity extends BaseActivity {
             R.id.tv_mvp_test,
             R.id.tv_mvvm_test,
             R.id.tv_jni_test,
-            R.id.tv_flutter_test})
+            R.id.tv_flutter_test,
+            R.id.tv_flutter_test2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_view:
@@ -107,6 +109,9 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.tv_flutter_test:
                 ActivityUtils.startActivity(FlutterTestActivity.class);
+                break;
+            case R.id.tv_flutter_test2:
+                ActivityUtils.startActivity(FlutterTestActivity2.class);
                 break;
         }
     }

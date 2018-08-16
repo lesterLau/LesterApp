@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_flutter/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Api {
   static const String BaseUrl = "http://www.wanandroid.com/";
@@ -38,6 +39,49 @@ class Api {
 
   //搜索热词
   static const String HOTKEY = "hotkey/json";
+
+  static final String HOST = "https://www.oschina.net";
+
+  // 资讯列表
+  static final String NEWS_LIST = "http://osc.yubo725.top/news/list";
+
+  // 资讯详情
+  static final String NEWS_DETAIL = HOST + "/action/openapi/news_detail";
+
+  // 动弹列表
+  static final String TWEETS_LIST = HOST + "/action/openapi/tweet_list";
+
+  // 评论列表
+  static final String COMMENT_LIST = HOST + "/action/openapi/comment_list";
+
+  // 评论回复
+  static final String COMMENT_REPLY = HOST + "/action/openapi/comment_reply";
+
+  // 获取用户信息
+  static final String USER_INFO = HOST + "/action/openapi/user";
+
+  // 发布动弹
+  static final String PUB_TWEET = HOST + "/action/openapi/tweet_pub";
+
+  // 添加到小黑屋
+  static final String ADD_TO_BLACK = "http://osc.yubo725.top/black/add";
+
+  // 查询小黑屋
+  static final String QUERY_BLACK = "http://osc.yubo725.top/black/query";
+
+  // 从小黑屋中删除
+  static final String DELETE_BLACK = "http://osc.yubo725.top/black/delete";
+
+  // 开源活动
+  static final String EVENT_LIST = "http://osc.yubo725.top/events/";
+
+  static final String REDIRECT_URL = "http://yubo725.top/osc/osc.php";
+
+  static final String LOGIN_URL =
+      "https://www.oschina.net/action/oauth2/authorize?client_id=4rWcDXCNTV5gMWxtagxI&response_type=code&redirect_uri=" +
+          REDIRECT_URL;
+
+  static final String OSC_CLIENT_ID = "4rWcDXCNTV5gMWxtagxI";
 }
 
 class HttpUtil {
@@ -83,7 +127,7 @@ class HttpUtil {
       Map<String, String> headers,
       Function errorCallback}) async {
     String errorMsg;
-    int errorCode;
+    int errorCode = -1;
     var data;
     if (headers == null) {
       headers = new Map();
@@ -116,13 +160,17 @@ class HttpUtil {
     errorMsg = map['errorMsg'];
     errorCode = map['errorCode'];
     data = map['data'];
+    print(StringUtils.getStringBuffer("errorCode==>", obj1: errorCode));
+    print(StringUtils.getStringBuffer("data==>", obj1: data));
     if (url.contains(Api.LOGIN)) {
       SharedPreferences sp = await SharedPreferences.getInstance();
       sp.setString("cookie", res.headers['set-cookie']);
     }
     if (callback != null) {
-      if (errorCode >= 0) {
+      if (errorCode != null && errorCode >= 0) {
         callback(data);
+      } else if (data == null) {
+        callback(res.body);
       } else {
         if (errorCallback != null) {
           errorCallback(errorMsg);

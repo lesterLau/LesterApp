@@ -11,13 +11,11 @@ class EndLine extends StatelessWidget {
         children: <Widget>[
           new Expanded(
               child: new Divider(
-                height: 10.0,
-              )),
+            height: 10.0,
+          )),
           new Text(
             "我是有底线的",
-            style: new TextStyle(color: Theme
-                .of(context)
-                .accentColor),
+            style: new TextStyle(color: Theme.of(context).accentColor),
           ),
           new Expanded(
             child: new Divider(
@@ -69,8 +67,14 @@ class SlideViewState extends State<SlideView>
       for (var i = 0; i < _data.length; i++) {
         var item = _data[i];
         var imageUrl = item['imagePath'];
+        if (imageUrl == null) {
+          imageUrl = item['imgUrl'];
+        }
         var title = item['title'];
         item['link'] = item['url'];
+        if (item['link'] == null) {
+          item['link'] = item['detailUrl'];
+        }
         items.add(new GestureDetector(
           onTap: () {
             _handOnItemClick(item);

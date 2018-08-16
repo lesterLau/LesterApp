@@ -41,6 +41,8 @@ class ArticleDetailPageState extends State<ArticleDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.url);
+    print(widget.title);
     return new WebviewScaffold(
       url: widget.url,
       appBar: new AppBar(

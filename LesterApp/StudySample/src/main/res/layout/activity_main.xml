@@ -1,87 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/common_space">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_view"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="test view" />
+        android:layout_height="match_parent"
+        android:gravity="left"
+        android:orientation="vertical"
+        android:padding="@dimen/common_space">
 
-    <TextView
-        android:id="@+id/tv_http"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="test Http" />
+        <TextView
+            android:id="@+id/tv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="test view" />
 
-    <TextView
-        android:id="@+id/tv_tinker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="test Tinker" />
+        <TextView
+            android:id="@+id/tv_http"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="test Http" />
 
-    <TextView
-        android:id="@+id/tv_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="test Fragment" />
+        <TextView
+            android:id="@+id/tv_tinker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="test Tinker" />
 
-    <TextView
-        android:id="@+id/tv_news"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="click to news \n Fragment used in large-size or normal-size. " />
+        <TextView
+            android:id="@+id/tv_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="test Fragment" />
 
-    <TextView
-        android:id="@+id/tv_show_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="show error layout" />
+        <TextView
+            android:id="@+id/tv_news"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="click to news \n Fragment used in large-size or normal-size. " />
 
-    <TextView
-        android:id="@+id/tv_mvp_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="mvp test" />
+        <TextView
+            android:id="@+id/tv_show_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="show error layout" />
 
-    <TextView
-        android:id="@+id/tv_mvvm_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="mvvm test" />
+        <TextView
+            android:id="@+id/tv_mvp_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="mvp test" />
 
-    <TextView
-        android:id="@+id/tv_jni_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="jni test" />
+        <TextView
+            android:id="@+id/tv_mvvm_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="mvvm test" />
 
-    <TextView
-        android:id="@+id/tv_flutter_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="仿WanAndroid客户端 Flutter版 \nhot reload步骤：1，在my_flutter下使用Terminal或者命令行执行命令【flutter attach】，等出现listenring之后执行第二部 \n2,运行LesterApp.\3,在my_flutter下使用Terminal或者命令行执行命令r或者R" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_jni_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="jni test" />
+
+        <TextView
+            android:id="@+id/tv_flutter_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="仿WanAndroid客户端 Flutter版 \nhot reload步骤：\n1,在my_flutter下使用Terminal或者命令行执行命令 flutter attach ,等出现listenring之后执行第二部 \n2,运行LesterApp.\n3,在my_flutter下使用Terminal或者命令行执行命令r或者R" />
+
+        <TextView
+            android:id="@+id/tv_flutter_test2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="仿基于Google Flutter的开源中国客户端 flutter-osc" />
+    </LinearLayout>
+</ScrollView>

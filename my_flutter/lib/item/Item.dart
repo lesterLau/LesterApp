@@ -98,7 +98,7 @@ class ArticleItemState extends State<ArticleItem> {
   }
 
   void _handleOnItemCollect(itemData) {
-    DataUtils.login().then((isLogin) {
+    DataUtils.isLogin().then((isLogin) {
       if (isLogin) {
         _itemCollect(itemData);
       } else {

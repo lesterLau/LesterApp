@@ -32,7 +32,14 @@
         <activity android:name=".test.view.InterceptTouchActivity"></activity>
         <activity android:name=".test.view.FlowActivity"></activity>
         <activity
-            android:name=".test.FlutterTestActivity"
+            android:name=".test.flutter.FlutterTestActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTop"
+            android:theme="@style/LaunchTheme"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".test.flutter.FlutterTestActivity2"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
