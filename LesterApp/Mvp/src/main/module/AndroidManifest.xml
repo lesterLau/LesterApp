@@ -3,7 +3,7 @@
     package="com.lester.mvp">
 
     <application
-        android:name="debug.MvvmApplication"
+        android:name="debug.MvpApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
