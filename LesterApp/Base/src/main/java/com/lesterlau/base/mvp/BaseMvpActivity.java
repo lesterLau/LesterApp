@@ -124,6 +124,9 @@ public abstract class BaseMvpActivity<T extends IBasePresenter> extends BaseSimp
     @Override
     public void onStop() {
         super.onStop();
+        if (!isFinishing()) {
+            return;
+        }
         if (networkReceiver != null) {
             unregisterReceiver(networkReceiver);
         }

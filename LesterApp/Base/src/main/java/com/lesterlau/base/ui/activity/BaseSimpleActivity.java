@@ -33,10 +33,9 @@ public abstract class BaseSimpleActivity extends SwipeBackActivity {
     }
 
     @Override
-    public void finish() {
-        LogUtils.d(TAG, "finish");
+    protected void onDestroy() {
+        super.onDestroy();
         unbinder.unbind();
-        super.finish();
     }
 
     protected void initBase(int layoutResID) {
@@ -68,6 +67,4 @@ public abstract class BaseSimpleActivity extends SwipeBackActivity {
      * 初始化数据
      */
     protected abstract void initData();
-
-
 }

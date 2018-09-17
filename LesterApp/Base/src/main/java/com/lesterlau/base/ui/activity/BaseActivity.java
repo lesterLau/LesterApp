@@ -96,8 +96,11 @@ public abstract class BaseActivity extends BaseSimpleActivity implements Network
     }
 
     @Override
-    public void finish() {
-        super.finish();
+    protected void onStop() {
+        super.onStop();
+        if (!isFinishing()) {
+            return;
+        }
         if (networkReceiver != null) {
             unregisterReceiver(networkReceiver);
         }
