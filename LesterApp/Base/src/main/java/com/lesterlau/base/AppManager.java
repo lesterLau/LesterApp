@@ -36,7 +36,7 @@ public class AppManager {
      * @param statusColor      状态栏颜色
      * @param fitSystemWindows 根布局是否设置fitSystemWindows
      */
-    protected void setStatusBarColor(Activity activity, int statusColor, boolean fitSystemWindows) {
+    public static void setStatusBarColor(Activity activity, int statusColor, boolean fitSystemWindows) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -52,7 +52,7 @@ public class AppManager {
         }
     }
 
-    protected void setWhiteStatusBar(Activity activity, boolean fitSystemWindows) {
+    public static void setWhiteStatusBar(Activity activity, boolean fitSystemWindows) {
         setWhiteStatusBar(activity, fitSystemWindows, true);
     }
 
@@ -63,7 +63,7 @@ public class AppManager {
      * @param isFullScreen     根布局是否充满屏幕
      * @param fitSystemWindows 根布局是否设置fitSystemWindows
      */
-    protected void setWhiteStatusBar(Activity activity, boolean fitSystemWindows, boolean isFullScreen) {
+    public static void setWhiteStatusBar(Activity activity, boolean fitSystemWindows, boolean isFullScreen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -82,7 +82,7 @@ public class AppManager {
         }
     }
 
-    protected void setLightAndTransStatusBar(Activity activity, boolean fitSystemWindows, boolean isFullScreen) {
+    public static void setLightAndTransStatusBar(Activity activity, boolean fitSystemWindows, boolean isFullScreen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -106,7 +106,7 @@ public class AppManager {
      *
      * @param fitSystemWindows 根布局是否设置fitSystemWindows
      */
-    protected void translucentStatusBar(Activity activity, boolean fitSystemWindows) {
+    public static void translucentStatusBar(Activity activity, boolean fitSystemWindows) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -122,7 +122,7 @@ public class AppManager {
         }
     }
 
-    private int getStatuBarSize() {
+    public static int getStatuBarSize() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//当api<19的时候，状态栏高度返回0，否则返回真实的statusBarHeight
             int statusBarsId = Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android");
             return Resources.getSystem().getDimensionPixelSize(statusBarsId);
@@ -130,7 +130,7 @@ public class AppManager {
         return 0;
     }
 
-    protected void setBarPadding(final View view) {
+    public static void setBarPadding(final View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             final ViewGroup.LayoutParams lp = view.getLayoutParams();
             if (lp.height == ViewGroup.LayoutParams.WRAP_CONTENT) {  //解决状态栏高度为warp_content或match_parent问题
@@ -151,7 +151,7 @@ public class AppManager {
         }
     }
 
-    protected void setBarMargin(final View view) {
+    public static void setBarMargin(final View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
             layoutParams.setMargins(layoutParams.leftMargin,
