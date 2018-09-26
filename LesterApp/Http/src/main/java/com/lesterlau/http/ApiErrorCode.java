@@ -9,8 +9,9 @@ import java.util.Map;
 public enum ApiErrorCode {
     ERROR_UNKNOWN(1, "未知错误"),
     ERROR_NETWORK(2, "网络错误，请检查你的网络设置"),
-    ERROR_IO(3, "网络请求数据传输异常"),
-    ERROR_CONNECTION_TIMEOUT(4, "网络请求数据传输异常"),
+    ERROR_HOST(3, "服务器地址错误，请检查服务器地址是否正常"),
+    ERROR_IO(4, "网络请求数据传输异常"),
+    ERROR_CONNECTION_TIMEOUT(5, "网络连接超时，请检查你的网络设置"),
     ERROR_500(500, "服务器错误"),
     ERROR_404(404, "地址错误"),
     HOST_KEY(1001, "host_url"),

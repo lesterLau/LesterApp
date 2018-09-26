@@ -295,8 +295,8 @@ public class RequestHelper {
                     errorCode = ApiErrorCode.ERROR_NETWORK.getCode();
                     errorMsg = ApiErrorCode.ERROR_NETWORK.getValue();
                 } else if (throwable instanceof UnknownHostException) {
-                    errorCode = ApiErrorCode.ERROR_NETWORK.getCode();
-                    errorMsg = ApiErrorCode.ERROR_NETWORK.getValue();
+                    errorCode = ApiErrorCode.ERROR_HOST.getCode();
+                    errorMsg = ApiErrorCode.ERROR_HOST.getValue();
                 } else if (throwable instanceof IOException) {
                     errorCode = ApiErrorCode.ERROR_IO.getCode();
                     errorMsg = ApiErrorCode.ERROR_IO.getValue();
