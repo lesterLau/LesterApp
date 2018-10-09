@@ -9,8 +9,3 @@ include ':News'
 include ':Mvp'
 include ':Mvvm'
 include ':Jni'
-setBinding(new Binding([gradle: this]))                                 // new
-evaluate(new File(                                                      // new
-  settingsDir.parentFile,                                               // new
-  'my_flutter/.android/include_flutter.groovy'                          // new
-))       

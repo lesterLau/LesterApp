@@ -9,6 +9,7 @@ import com.blankj.utilcode.util.LogUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
@@ -18,6 +19,9 @@ public abstract class BaseSimpleActivity extends SwipeBackActivity {
     private static final String TAG = BaseSimpleActivity.class.getSimpleName();
     protected Activity instance;
     private Unbinder unbinder;
+    protected int defaultPageIndex = 1;
+    protected int pageSize = 10;
+    protected int page = defaultPageIndex;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public abstract class BaseSimpleActivity extends SwipeBackActivity {
         unbinder = ButterKnife.bind(this);
         initView();
         initData();
+        getSwipeBackLayout().setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
     }
 
     @Override

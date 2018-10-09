@@ -1,9 +1,7 @@
 package com.lester.lesterapp.test.view;
 
-import android.os.Bundle;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -13,7 +11,6 @@ import com.lesterlau.base.ui.activity.BaseActivity;
 import com.lesterlau.view.ImageViewPlus;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @Author lester
@@ -156,12 +153,5 @@ public class CircleImageActivity extends BaseActivity implements RadioGroup.OnCh
         } else {
             image1.setBorderColor(color);
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

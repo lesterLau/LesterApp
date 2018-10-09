@@ -1,11 +1,13 @@
 package com.lesterlau.base.mvp;
 
+import android.app.Activity;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lesterlau.base.AppManager;
 import com.lesterlau.base.R;
 import com.lesterlau.base.keeplive.NetworkReceiver;
 import com.lesterlau.base.mvp.presenter.IBasePresenter;
@@ -50,6 +52,9 @@ public abstract class BaseMvpActivity<T extends IBasePresenter> extends BaseSimp
         setContentView(baseView);
         if (!isAttachTitle()) {
             titlePanel.setVisibility(View.GONE);
+        } else {
+            AppManager.translucentStatusBar(this, false);
+            AppManager.setBarPadding(findViewById(R.id.fl_title_root));
         }
         if (isListenerNetwork()) {
             registerNetworkReceiver();
@@ -97,6 +102,11 @@ public abstract class BaseMvpActivity<T extends IBasePresenter> extends BaseSimp
     public void showNormal() {
         errorPanel.setVisibility(View.GONE);
         contentView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public Activity getInstance() {
+        return instance;
     }
 
     protected void registerNetworkReceiver() {

@@ -81,5 +81,34 @@
         <attr name="sriv_oval" format="boolean" />
         <attr name="android:scaleType" />
     </declare-styleable>
+    <declare-styleable name="NumberProgressBar">
+        <attr name="progress_current" format="integer"/>
+        <attr name="progress_max" format="integer"/>
 
+        <attr name="progress_unreached_color" format="color"/>
+        <attr name="progress_reached_color" format="color"/>
+
+        <attr name="progress_reached_bar_height" format="dimension"/>
+        <attr name="progress_unreached_bar_height" format="dimension"/>
+
+        <attr name="progress_text_size" format="dimension"/>
+        <attr name="progress_text_color" format="color"/>
+
+        <attr name="progress_text_offset" format="dimension"/>
+
+        <attr name="progress_text_visibility" format="enum">
+            <enum name="visible" value="0"/>
+            <enum name="invisible" value="1"/>
+        </attr>
+    </declare-styleable>
+    <!--自定义属性的使用-->
+    <declare-styleable name="HorizontalProgressBarWithProgress">
+        <attr name="h_progress_unreach_color" format="color"></attr>
+        <attr name="h_progress_unreach_height" format="dimension"></attr>
+        <attr name="h_progress_reach_color" format="color"></attr>
+        <attr name="h_progress_reach_height" format="dimension"></attr>
+        <attr name="h_progress_text_color" format="color"></attr>
+        <attr name="h_progress_text_size" format="dimension"></attr>
+        <attr name="h_progress_text_offset" format="dimension"></attr>
+    </declare-styleable>
 </resources>

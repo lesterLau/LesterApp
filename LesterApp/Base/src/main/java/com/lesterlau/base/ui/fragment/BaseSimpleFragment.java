@@ -41,6 +41,10 @@ public abstract class BaseSimpleFragment extends Fragment {
      */
     protected ViewGroup contentView;
 
+    protected int defaultPageIndex = 1;
+    protected int pageSize = 10;
+    protected int page = defaultPageIndex;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

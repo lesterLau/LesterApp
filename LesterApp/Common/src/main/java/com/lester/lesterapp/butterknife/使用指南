@@ -1,0 +1,3 @@
+处理butterKnife快速点击事件
+在每个点击事件的最前面添加如下代码 //判断是否多次点击
+if (AntiShake.check(view.getId())) {return;}

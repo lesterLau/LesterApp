@@ -45,6 +45,5 @@ dependencies {
         implementation project(':Mvp')
         implementation project(':Mvvm')
         implementation project(':Jni')
-		implementation project(':flutter')
     }
 }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.constant.CommonConstants;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.SPUtils;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.security.KeyStore;
@@ -54,7 +56,7 @@ import rx.schedulers.Schedulers;
  * Created by liubin on 2016/9/19.
  */
 public class RequestHelper {
-    private static final int CONNECT_TIMEOUT = 5;  //请求超时时间，单位：min
+    private static final int CONNECT_TIMEOUT = 60;  //请求超时时间，单位：min
     private static RequestHelper instance;
     private static RequestAPI requestAPI;
     private Interception interception;
@@ -93,7 +95,7 @@ public class RequestHelper {
         OkHttpClient.Builder localBuilder = new OkHttpClient.Builder();
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             localBuilder.addInterceptor(loggingInterceptor);
         }
 
@@ -114,6 +116,8 @@ public class RequestHelper {
                         .addHeader("Content-Type", "application/json;charset=utf-8")
                         .addHeader("Accept", "application/json")
                         .addHeader("Connection", "keep-alive")
+                        .addHeader("Cookie", SPUtils.getInstance(CommonConstants.USER_SESSION_INFO).getString(CommonConstants.SESSION, ""))
+                        .addHeader("token", SPUtils.getInstance(CommonConstants.USER_SESSION_INFO).getString(CommonConstants.TOKEN, ""))
                         .build();
                 return chain.proceed(request);
             }
@@ -121,9 +125,9 @@ public class RequestHelper {
 
         try {
             //设置超时
-            localBuilder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES);
-            localBuilder.readTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES);
-            localBuilder.writeTimeout(CONNECT_TIMEOUT, TimeUnit.MINUTES);
+            localBuilder.connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
+            localBuilder.readTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
+            localBuilder.writeTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS);
             //错误重连
             localBuilder.retryOnConnectionFailure(false);
             Retrofit retrofit = new Retrofit.Builder()
@@ -200,6 +204,21 @@ public class RequestHelper {
         }
     }
 
+    public void post(HttpRequest request, File file) {
+        checkInit(request);
+        request.method = HttpRequest.POST;
+        Subscription subscription = requestAPI.postImg(request.url, toDesRequestBody("head"), toMultipartBody(file))
+                // Run on a background thread
+                .subscribeOn(Schedulers.io())
+                // Be notified on the main thread
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MySuccess(request), new MyError(request));
+        RxManager.getInstance().add(request.tag, subscription);
+        if (request.showLoading) {
+            CustomProgressDialog.showProgressDialog(request.context, request.canCancel, request.canceledOnTouchOutside);
+        }
+    }
+
     private RequestBody toRequestBody(Map<String, Object> map) {
         if (map == null) {
             map = new HashMap<>();
@@ -236,7 +255,7 @@ public class RequestHelper {
     }
 
     public interface Interception {
-        public boolean intercept(HttpRequest httpRequest, Response<ResponseBody> responseBodyResponse);
+        boolean intercept(HttpRequest httpRequest, Response<ResponseBody> responseBodyResponse, HttpResponse response);
 
     }
 
@@ -286,26 +305,24 @@ public class RequestHelper {
 
         @Override
         public void call(Throwable throwable) {
-            LogUtils.e(throwable);
             if (httpRequest != null && httpRequest.cb != null) {
                 //默认code和msg
                 int errorCode = ApiErrorCode.ERROR_UNKNOWN.getCode();
-                String errorMsg = ApiErrorCode.ERROR_UNKNOWN.getValue();
+                String errorMsg = ApiErrorCode.ERROR_UNKNOWN.getValue() + throwable.getMessage();
                 if (!NetworkUtils.isConnected()) {//无网络失败
                     errorCode = ApiErrorCode.ERROR_NETWORK.getCode();
                     errorMsg = ApiErrorCode.ERROR_NETWORK.getValue();
-                } else if (throwable instanceof UnknownHostException) {
+                } else if (throwable instanceof UnknownHostException || throwable instanceof ConnectException) {
                     errorCode = ApiErrorCode.ERROR_HOST.getCode();
-                    errorMsg = ApiErrorCode.ERROR_HOST.getValue();
+                    errorMsg = ApiErrorCode.ERROR_HOST.getValue() + throwable.getMessage();
                 } else if (throwable instanceof IOException) {
                     errorCode = ApiErrorCode.ERROR_IO.getCode();
-                    errorMsg = ApiErrorCode.ERROR_IO.getValue();
+                    errorMsg = ApiErrorCode.ERROR_IO.getValue() + throwable.getMessage();
                 } else if (throwable instanceof SocketTimeoutException) {
                     errorCode = ApiErrorCode.ERROR_CONNECTION_TIMEOUT.getCode();
-                    errorMsg = ApiErrorCode.ERROR_CONNECTION_TIMEOUT.getValue();
+                    errorMsg = ApiErrorCode.ERROR_CONNECTION_TIMEOUT.getValue() + throwable.getMessage();
                 }
                 httpRequest.cb.onError(new ApiException(errorCode, errorMsg));
-                ToastUtils.showShort(errorMsg);
             }
             RxManager.getInstance().remove(httpRequest.tag);
             CustomProgressDialog.stopProgressDialog();
@@ -321,39 +338,36 @@ public class RequestHelper {
 
         @Override
         public void call(Response<ResponseBody> responseBodyResponse) {
-            LogUtils.d(responseBodyResponse);
-            boolean intercept = false;
-            if (interception != null) {
-                intercept = interception.intercept(httpRequest, responseBodyResponse);
-            }
-            if (!intercept && httpRequest != null && httpRequest.cb != null) {
+            boolean isInterception = false;
+            if (httpRequest != null && httpRequest.cb != null) {
                 boolean onSuccess = false;
                 int errorCode = ApiErrorCode.ERROR_UNKNOWN.getCode();
                 String errorMsg = ApiErrorCode.ERROR_UNKNOWN.getValue();
                 if (responseBodyResponse.isSuccessful()) {
                     try {
                         String result = responseBodyResponse.body().string();
-                        LogUtils.d(result);
                         Type t = ((ParameterizedType) httpRequest.cb.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                         HttpResponse response = new Gson().fromJson(result, t);
-                        if (response.isResult() || response.getCode() == 200 || response.getErrorCode() >= 0) {
+                        if (interception != null) {
+                            isInterception = interception.intercept(httpRequest, responseBodyResponse, response);
+                        }
+                        if ((response.isResult() || response.getCode() == 200 || response.getErrorCode() >= 0) && !isInterception) {
                             httpRequest.cb.onSuccess(response);
                             onSuccess = true;
                         } else {
                             errorCode = response.getCode();
                             errorMsg = response.getMsg();
                         }
-                    } catch (IOException e) {
+                    } catch (Exception e) {
                         errorCode = ApiErrorCode.ERROR_IO.getCode();
-                        errorMsg = ApiErrorCode.ERROR_IO.getValue();
+                        errorMsg = ApiErrorCode.ERROR_IO.getValue() + e.getMessage();
                     }
                 } else {
                     errorCode = responseBodyResponse.code();
                     errorMsg = responseBodyResponse.message();
                 }
-                if (!onSuccess) {
+                if (!onSuccess && !isInterception) {
                     httpRequest.cb.onError(new ApiException(errorCode, errorMsg));
-                    ToastUtils.showShort(errorMsg);
                 }
             }
             if (httpRequest.retry) {
@@ -409,6 +423,23 @@ public class RequestHelper {
             this.showLoading = showLoading;
             this.canCancel = canCancel;
             this.canceledOnTouchOutside = canceledOnTouchOutside;
+        }
+
+        @Override
+        public String toString() {
+            return "HttpRequest{" +
+                    "method='" + method + '\'' +
+                    ", retry=" + retry +
+                    ", baseUrl='" + baseUrl + '\'' +
+                    ", url='" + url + '\'' +
+                    ", params=" + params +
+                    ", cb=" + cb.toString() +
+                    ", tag='" + tag + '\'' +
+                    ", context=" + context +
+                    ", showLoading=" + showLoading +
+                    ", canCancel=" + canCancel +
+                    ", canceledOnTouchOutside=" + canceledOnTouchOutside +
+                    '}';
         }
     }
 }

@@ -474,7 +474,7 @@ public final class LogUtils {
         }
         Future<Boolean> submit = sExecutor.submit(new Callable<Boolean>() {
             @Override
-            public Boolean call() throws Exception {
+            public Boolean call() {
                 BufferedWriter bw = null;
                 try {
                     bw = new BufferedWriter(new FileWriter(filePath, true));
