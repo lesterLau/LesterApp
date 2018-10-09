@@ -43,7 +43,7 @@ public class AppManager {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(statusColor);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
+            ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
             View mChildView = mContentView.getChildAt(0);
             if (mChildView != null) {
                 ViewCompat.setFitsSystemWindows(mChildView, fitSystemWindows);
@@ -73,7 +73,7 @@ public class AppManager {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
             window.setStatusBarColor(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? Color.WHITE : Color.TRANSPARENT);
-            ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
+            ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
             View mChildView = mContentView.getChildAt(0);
             if (mChildView != null) {
                 ViewCompat.setFitsSystemWindows(mChildView, fitSystemWindows);
@@ -92,7 +92,7 @@ public class AppManager {
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
             }
             window.setStatusBarColor(Color.TRANSPARENT);
-            ViewGroup mContentView = (ViewGroup) window.findViewById(Window.ID_ANDROID_CONTENT);
+            ViewGroup mContentView = window.findViewById(Window.ID_ANDROID_CONTENT);
             View mChildView = mContentView.getChildAt(0);
             if (mChildView != null) {
                 ViewCompat.setFitsSystemWindows(mChildView, fitSystemWindows);

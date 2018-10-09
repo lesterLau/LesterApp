@@ -129,10 +129,7 @@ public class StereoView extends LinearLayout {
         float moveY;
         moveX = ev.getX();
         mTempY = moveY = ev.getY();
-        if (Math.abs(moveY - mDownX) > mTouchSlop && (Math.abs(moveY - mDownY) > (Math.abs(moveX - mDownX)))) {
-            return true;
-        }
-        return false;
+        return Math.abs(moveY - mDownX) > mTouchSlop && (Math.abs(moveY - mDownY) > (Math.abs(moveX - mDownX)));
     }
 
     private void changeByState(float yVelocity) {

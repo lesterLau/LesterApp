@@ -884,13 +884,9 @@ public class TimeUtil extends TimeBaseUtil {
         int hour = cal.get(Calendar.HOUR_OF_DAY);// 获取小时
         int minute = cal.get(Calendar.MINUTE);// 获取分钟
         int minuteOfDay = hour * 60 + minute;// 当前时间
-        if (minuteOfDay >= start && minuteOfDay <= end) {
-            // System.out.println("在外围内");
-            return true;
-        } else {
-            // System.out.println("在外围外");
-            return false;
-        }
+        // System.out.println("在外围内");
+// System.out.println("在外围外");
+        return minuteOfDay >= start && minuteOfDay <= end;
     }
 
     /**

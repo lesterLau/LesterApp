@@ -39,7 +39,7 @@ public class NewsAdapter extends ArrayAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(resId, null);
         }
-        TextView textView = (TextView) convertView.findViewById(R.id.news_title);
+        TextView textView = convertView.findViewById(R.id.news_title);
         textView.setText(getItem(position).title);
         return convertView;
     }

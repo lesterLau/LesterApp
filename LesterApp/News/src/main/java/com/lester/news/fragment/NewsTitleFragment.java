@@ -42,7 +42,7 @@ public class NewsTitleFragment extends Fragment implements AdapterView.OnItemCli
         View view = inflater.inflate(R.layout.news_title_frag, container, false);
         newsBeanList = getNewsBean();
         newsAdapter = new NewsAdapter(activity, R.layout.news_item, newsBeanList);
-        newTitleListView = (ListView) view.findViewById(R.id.news_title_list_view);
+        newTitleListView = view.findViewById(R.id.news_title_list_view);
         newTitleListView.setAdapter(newsAdapter);
         newTitleListView.setOnItemClickListener(this);
         return view;
@@ -52,11 +52,7 @@ public class NewsTitleFragment extends Fragment implements AdapterView.OnItemCli
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         activity = getActivity();
-        if (activity.findViewById(R.id.news_content_layout) == null) {
-            isTwoPane = false;
-        } else {
-            isTwoPane = true;
-        }
+        isTwoPane = activity.findViewById(R.id.news_content_layout) != null;
     }
 
     @Override

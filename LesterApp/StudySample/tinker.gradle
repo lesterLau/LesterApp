@@ -251,7 +251,7 @@ if (buildWithTinker()) {
         }
     }
 
-    List<String> flavors = new ArrayList<>();
+    List<String> flavors = new ArrayList<>()
     project.android.productFlavors.each { flavor ->
         flavors.add(flavor.name)
     }

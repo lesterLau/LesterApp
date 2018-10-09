@@ -31,9 +31,9 @@ public class NewsContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.news_content_flag, container, false);
-        visiblityLayout = (LinearLayout) view.findViewById(R.id.visiblity_layout);
-        titleTxt = (TextView) view.findViewById(R.id.news_title);
-        contentTxt = (TextView) view.findViewById(R.id.news_content);
+        visiblityLayout = view.findViewById(R.id.visiblity_layout);
+        titleTxt = view.findViewById(R.id.news_title);
+        contentTxt = view.findViewById(R.id.news_content);
         return view;
     }
 
